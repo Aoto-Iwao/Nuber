@@ -39,6 +39,7 @@ public class NuberDispatch {
 	 */
 	public boolean addDriver(Driver newDriver)
 	{
+		return false;
 	}
 	
 	/**
@@ -50,6 +51,7 @@ public class NuberDispatch {
 	 */
 	public Driver getDriver()
 	{
+		return null;
 	}
 
 	/**
@@ -80,6 +82,7 @@ public class NuberDispatch {
 	 * @return returns a Future<BookingResult> object
 	 */
 	public Future<BookingResult> bookPassenger(Passenger passenger, String region) {
+		return null;
 	}
 
 	/**
@@ -91,6 +94,7 @@ public class NuberDispatch {
 	 */
 	public int getBookingsAwaitingDriver()
 	{
+		return 123;
 	}
 	
 	/**
