@@ -24,6 +24,7 @@ public class AssignmentDriver {
 		Passenger testPassenger = new Passenger("Alex", 100);
 
 		Driver testDriver = new Driver("Barbara", 100);
+		
 		try {
 			//should store the passenger, and then sleep the thread for as long as the driver's random timeout takes
 			testDriver.pickUpPassenger(testPassenger);
@@ -48,7 +49,7 @@ public class AssignmentDriver {
 		dispatch.addDriver(testDriver);
 		
 		//aoto
-		dispatch.getDriver();
+		//dispatch.getDriver();
 		
 		//test booking a single passenger
 		dispatch.bookPassenger(testPassenger, "Test Region");

@@ -68,9 +68,7 @@ public class NuberDispatch{
 			// TODO: handle exception
 			System.out.println("error");
 			return false;
-		}
-		
-		
+		}	
 	}
 	
 	/**
@@ -96,6 +94,7 @@ public class NuberDispatch{
 		}
 	}
 
+	
 	/**
 	 * Prints out the string
 	 * 	    booking + ": " + message
@@ -109,7 +108,6 @@ public class NuberDispatch{
 		if (!logEvents) return;
 		
 		System.out.println(booking + ": " + message);
-		
 	}
 
 	/**
@@ -136,7 +134,7 @@ public class NuberDispatch{
 	 */
 	public int getBookingsAwaitingDriver()
 	{
-		return 123;
+		return queueSemaphore.availablePermits();
 	}
 	
 	/**

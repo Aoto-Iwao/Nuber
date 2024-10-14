@@ -1,7 +1,9 @@
 package nuber.students;
 
 public class Driver extends Person {
-
+	
+	//aoto
+	private Passenger passenger;
 	
 	public Driver(String driverName, int maxSleep)
 	{
@@ -15,8 +17,14 @@ public class Driver extends Person {
 	 * @param newPassenger Passenger to collect
 	 * @throws InterruptedException
 	 */
-	public void pickUpPassenger(Passenger newPassenger)
+	public void pickUpPassenger(Passenger newPassenger)throws InterruptedException
 	{
+		passenger = newPassenger;
+		int actualDelay;
+		actualDelay = randomWithRange(0, maxSleep); 
+		System.out.println("Actual delay is "+actualDelay);
+		System.out.println("the passenger is: " + passenger.name);
+		Thread.sleep(actualDelay);
 	}
 
 	/**
@@ -27,5 +35,10 @@ public class Driver extends Person {
 	 */
 	public void driveToDestination() {
 	}
+	
+	//add this since enable sleep.
+	private static int randomWithRange(int min, int max) {
+		int range = (max - min) + 1;
+		return (int) (Math.random() * range) + min;}
 	
 }
