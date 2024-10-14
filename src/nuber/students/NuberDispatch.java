@@ -1,6 +1,8 @@
 package nuber.students;
 
 import java.util.HashMap;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Future;
 import java.util.concurrent.Semaphore;
 
@@ -10,7 +12,7 @@ import java.util.concurrent.Semaphore;
  * @author james
  *
  */
-public class NuberDispatch {
+public class NuberDispatch{
 
 	/**
 	 * The maximum number of idle drivers that can be awaiting a booking 
@@ -23,6 +25,9 @@ public class NuberDispatch {
 	
 	// added by Aoto
 	private Semaphore queueSemaphore = new Semaphore(MAX_DRIVERS);
+	
+	protected BlockingQueue idleDriver = new ArrayBlockingQueue(MAX_DRIVERS);
+	
 	
 	/**
 	 * Creates a new dispatch objects and instantiates the required regions and any other objects required.
@@ -48,13 +53,21 @@ public class NuberDispatch {
 	public boolean addDriver(Driver newDriver)
 	{
 		try {
+			//BlockingQueue queue = new ArrayBlockingQueue(MAX_DRIVERS);
+			System.out.println("Here is addDriver");
 			queueSemaphore.acquire();
+			System.out.println("Here is addDriver");
+			idleDriver.put(newDriver);
+			System.out.println("Here is addDriver");
+			System.out.println("take: " + idleDriver.take());
+			
 			return true;
 		}catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("error");
+			return false;
 		}
-		return false;
+		
 		
 	}
 	
