@@ -2,6 +2,7 @@ package nuber.students;
 
 import java.util.HashMap;
 import java.util.concurrent.Future;
+import java.util.concurrent.Semaphore;
 
 /**
  * The core Dispatch class that instantiates and manages everything for Nuber
@@ -18,6 +19,11 @@ public class NuberDispatch {
 	
 	private boolean logEvents = false;
 	
+	private HashMap<String, Integer> regionInfo;
+	
+	// added by Aoto
+	private Semaphore queueSemaphore = new Semaphore(MAX_DRIVERS);
+	
 	/**
 	 * Creates a new dispatch objects and instantiates the required regions and any other objects required.
 	 * It should be able to handle a variable number of regions based on the HashMap provided.
@@ -27,11 +33,13 @@ public class NuberDispatch {
 	 */
 	public NuberDispatch(HashMap<String, Integer> regionInfo, boolean logEvents)
 	{
+		this.regionInfo = regionInfo;
+		this.logEvents = logEvents;
 	}
 	
 	/**
 	 * Adds drivers to a queue of idle driver.
-	 *  
+	 * 
 	 * Must be able to have drivers added from multiple threads.
 	 * 
 	 * @param The driver to add to the queue.
@@ -39,7 +47,15 @@ public class NuberDispatch {
 	 */
 	public boolean addDriver(Driver newDriver)
 	{
+		try {
+			queueSemaphore.acquire();
+			return true;
+		}catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("error");
+		}
 		return false;
+		
 	}
 	
 	/**

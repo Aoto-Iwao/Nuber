@@ -31,6 +31,7 @@ public class Booking {
 	 */
 	public Booking(NuberDispatch dispatch, Passenger passenger)
 	{
+		
 	}
 	
 	/**
