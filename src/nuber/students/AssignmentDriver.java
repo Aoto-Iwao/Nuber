@@ -47,6 +47,9 @@ public class AssignmentDriver {
 		//test adding a driver to dispatch
 		dispatch.addDriver(testDriver);
 		
+		//aoto
+		dispatch.getDriver();
+		
 		//test booking a single passenger
 		dispatch.bookPassenger(testPassenger, "Test Region");
 

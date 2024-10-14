@@ -26,7 +26,7 @@ public class NuberDispatch{
 	// added by Aoto
 	private Semaphore queueSemaphore = new Semaphore(MAX_DRIVERS);
 	
-	protected BlockingQueue idleDriver = new ArrayBlockingQueue(MAX_DRIVERS);
+	protected BlockingQueue<Driver> idleDriver = new ArrayBlockingQueue<Driver>(MAX_DRIVERS);
 	
 	
 	/**
@@ -54,12 +54,14 @@ public class NuberDispatch{
 	{
 		try {
 			//BlockingQueue queue = new ArrayBlockingQueue(MAX_DRIVERS);
+			System.out.println("Semaphore: "+ queueSemaphore.availablePermits());
 			System.out.println("Here is addDriver");
 			queueSemaphore.acquire();
+			System.out.println("Semaphore: "+ queueSemaphore.availablePermits());
 			System.out.println("Here is addDriver");
 			idleDriver.put(newDriver);
 			System.out.println("Here is addDriver");
-			System.out.println("take: " + idleDriver.take());
+			//System.out.println("take: " + idleDriver.take());
 			
 			return true;
 		}catch (Exception e) {
@@ -80,7 +82,18 @@ public class NuberDispatch{
 	 */
 	public Driver getDriver()
 	{
-		return null;
+		try {
+			System.out.println("Here is getDriver");
+			Driver driver = idleDriver.take();
+			System.out.println("Here is after driver = (Driver) idleDriver.take();" + driver);
+			System.out.println("Semaphore: "+ queueSemaphore.availablePermits());
+			queueSemaphore.release();
+			System.out.println("Semaphore: "+ queueSemaphore.availablePermits());
+			return driver;
+		}catch (Exception e) {
+			// TODO: handle exception
+			return null;
+		}
 	}
 
 	/**
