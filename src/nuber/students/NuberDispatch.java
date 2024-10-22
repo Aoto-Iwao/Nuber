@@ -62,6 +62,7 @@ public class NuberDispatch{
 			idleDriver.put(newDriver);
 			System.out.println("Here is addDriver");
 			//System.out.println("take: " + idleDriver.take());
+			System.out.println("regionInfo" + regionInfo);
 			
 			return true;
 		}catch (Exception e) {

@@ -17,6 +17,8 @@ public class Driver extends Person {
 	 * @param newPassenger Passenger to collect
 	 * @throws InterruptedException
 	 */
+//	Output was Actual delay is 9
+//	the passenger is: Alex
 	public void pickUpPassenger(Passenger newPassenger)throws InterruptedException
 	{
 		passenger = newPassenger;
@@ -33,7 +35,12 @@ public class Driver extends Person {
 	 * 
 	 * @throws InterruptedException
 	 */
-	public void driveToDestination() {
+	
+	//Output:  travel time of: Alex -> 59
+	public void driveToDestination() throws InterruptedException {
+		int travelTime;
+		travelTime = passenger.getTravelTime();
+		System.out.println("travel time of: " + passenger.name + " -> " + travelTime);
 	}
 	
 	//add this since enable sleep.

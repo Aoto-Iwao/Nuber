@@ -57,8 +57,31 @@ public class Booking implements Callable{
 	 * 			information required in the BookingResult constructor.
 	 *
 	 * @return A BookingResult containing the final information about the booking 
+	 * @throws InterruptedException 
 	 */
-	public BookingResult call() {
+	public BookingResult call() throws InterruptedException {
+		
+		//aquire driver.
+		
+		Driver driver = dispatch.getDriver();
+		//If no driver is currently available, the booking must wait
+		if (driver == null) {
+			
+		}
+		//Once it has a driver, it must call the Driver.pickUpPassenger() function, with the 
+		 //thread pausing whilst as function is called.
+		driver.pickUpPassenger(passenger);
+		
+		//call the Driver.driveToDestination() function, with the thread pausing 
+		//whilst as function is called.
+		driver.driveToDestination();
+		
+		//Once at the destination, the time is recorded, so we know the total trip duration. 
+		
+		
+		
+		
+		
 		
 		return null;
 	}
@@ -76,6 +99,7 @@ public class Booking implements Callable{
 	@Override
 	public String toString()
 	{
+		
 		return null;
 	}
 

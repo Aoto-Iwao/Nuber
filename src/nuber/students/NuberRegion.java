@@ -2,6 +2,7 @@ package nuber.students;
 
 import java.security.ProtectionDomain;
 import java.util.concurrent.Future;
+import java.util.concurrent.Semaphore;
 
 /**
  * A single Nuber region that operates independently of other regions, other than getting 
@@ -24,6 +25,8 @@ public class NuberRegion {
 	protected String regionName;
 	protected int maxSimultaneousJobs;
 	
+	protected Semaphore jobSemaphore;
+	
 
 	
 	/**
@@ -38,6 +41,7 @@ public class NuberRegion {
 		this.dispatch = dispatch;
 		this.regionName = regionName;
 		this.maxSimultaneousJobs = maxSimultaneousJobs;
+		this.jobSemaphore = new Semaphore(maxSimultaneousJobs);
 	}
 	
 	/**
@@ -53,6 +57,18 @@ public class NuberRegion {
 	 */
 	public Future<BookingResult> bookPassenger(Passenger waitingPassenger)
 	{		
+		try {
+			jobSemaphore.acquire();
+			
+			
+			//if 
+			
+		}catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("Error in bookPassenger");
+		}
+		
+		
 		return null;
 	}
 	
