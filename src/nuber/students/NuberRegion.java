@@ -1,6 +1,5 @@
 package nuber.students;
 
-import java.security.ProtectionDomain;
 import java.util.concurrent.Future;
 import java.util.concurrent.Semaphore;
 
@@ -59,7 +58,7 @@ public class NuberRegion {
 	{		
 		try {
 			jobSemaphore.acquire();
-			
+			System.out.println("jobSemaphore: "+ jobSemaphore.getQueueLength());
 			
 			//if 
 			

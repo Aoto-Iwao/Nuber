@@ -1,10 +1,14 @@
 package nuber.students;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Future;
 import java.util.concurrent.Semaphore;
+
+import javax.swing.plaf.synth.Region;
 
 /**
  * The core Dispatch class that instantiates and manages everything for Nuber
@@ -24,9 +28,11 @@ public class NuberDispatch{
 	private HashMap<String, Integer> regionInfo;
 	
 	// added by Aoto
-	private Semaphore queueSemaphore = new Semaphore(MAX_DRIVERS);
 	
-	protected BlockingQueue<Driver> idleDriver = new ArrayBlockingQueue<Driver>(MAX_DRIVERS);
+	private int max_drivers = MAX_DRIVERS;
+	private Semaphore queueSemaphore = new Semaphore(max_drivers);
+	
+	protected BlockingQueue<Driver> idleDriver = new ArrayBlockingQueue<Driver>(max_drivers);
 	
 	
 	/**
@@ -40,6 +46,11 @@ public class NuberDispatch{
 	{
 		this.regionInfo = regionInfo;
 		this.logEvents = logEvents;
+		//Update max driver by its region. 
+		this.max_drivers = Collections.max(regionInfo.values());
+		this.queueSemaphore = new Semaphore(max_drivers);
+		
+		//this.queueSemaphore = new Semaphore(max_drivers);
 	}
 	
 	/**
@@ -53,16 +64,25 @@ public class NuberDispatch{
 	public boolean addDriver(Driver newDriver)
 	{
 		try {
+			
+			System.out.println("max_driver: " + max_drivers);
 			//BlockingQueue queue = new ArrayBlockingQueue(MAX_DRIVERS);
-			System.out.println("Semaphore: "+ queueSemaphore.availablePermits());
+			System.out.println("Available Semaphore: "+ queueSemaphore.availablePermits());
 			System.out.println("Here is addDriver");
 			queueSemaphore.acquire();
 			System.out.println("Semaphore: "+ queueSemaphore.availablePermits());
 			System.out.println("Here is addDriver");
 			idleDriver.put(newDriver);
+			
 			System.out.println("Here is addDriver");
 			//System.out.println("take: " + idleDriver.take());
 			System.out.println("regionInfo" + regionInfo);
+			System.out.println("name--" + idleDriver.element().name);
+			
+			int await;
+			await =  getBookingsAwaitingDriver();
+			System.out.println("await: " + await);
+			
 			
 			return true;
 		}catch (Exception e) {
@@ -123,6 +143,9 @@ public class NuberDispatch{
 	 * @return returns a Future<BookingResult> object
 	 */
 	public Future<BookingResult> bookPassenger(Passenger passenger, String region) {
+		
+		//NuberRegion rNuberRegion =
+		
 		return null;
 	}
 
@@ -135,7 +158,9 @@ public class NuberDispatch{
 	 */
 	public int getBookingsAwaitingDriver()
 	{
-		return queueSemaphore.availablePermits();
+		int awaiting_driver;
+		awaiting_driver =  max_drivers - queueSemaphore.availablePermits();
+		return awaiting_driver;
 	}
 	
 	/**

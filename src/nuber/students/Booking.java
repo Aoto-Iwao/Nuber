@@ -62,6 +62,8 @@ public class Booking implements Callable{
 	public BookingResult call() throws InterruptedException {
 		
 		//aquire driver.
+		dispatch.getBookingsAwaitingDriver();
+		
 		
 		Driver driver = dispatch.getDriver();
 		//If no driver is currently available, the booking must wait
@@ -78,12 +80,8 @@ public class Booking implements Callable{
 		
 		//Once at the destination, the time is recorded, so we know the total trip duration. 
 		
-		
-		
-		
-		
-		
 		return null;
+		
 	}
 	
 	/***
