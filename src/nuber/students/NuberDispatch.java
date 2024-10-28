@@ -3,6 +3,7 @@ package nuber.students;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Future;
@@ -32,7 +33,13 @@ public class NuberDispatch{
 	private int max_drivers = MAX_DRIVERS;
 	private Semaphore queueSemaphore = new Semaphore(max_drivers);
 	
+	//this is for driver. 
 	protected BlockingQueue<Driver> idleDriver = new ArrayBlockingQueue<Driver>(max_drivers);
+	
+	//this is for enable to set the semaphore for one or more regions.
+	protected HashMap<String, Semaphore> semaphoreForEachRegions;
+	
+	private int bookingAwaitingDriver = 0;
 	
 	
 	/**
@@ -47,10 +54,17 @@ public class NuberDispatch{
 		this.regionInfo = regionInfo;
 		this.logEvents = logEvents;
 		//Update max driver by its region. 
-		this.max_drivers = Collections.max(regionInfo.values());
-		this.queueSemaphore = new Semaphore(max_drivers);
+//		this.max_drivers = Collections.max(regionInfo.values());
+//		this.queueSemaphore = new Semaphore(max_drivers);
 		
 		//this.queueSemaphore = new Semaphore(max_drivers);
+		
+		this.semaphoreForEachRegions = new HashMap<>();
+		//EntrySetでMapの全てのStringとIntの組み合わせを返して、一つずつ取り出すためにEntryとしてる。
+		for (Map.Entry<String, Integer> entry : regionInfo.entrySet()) {
+			this.semaphoreForEachRegions.put(entry.getKey(), new Semaphore(entry.getValue()));
+		}
+		
 	}
 	
 	/**
@@ -79,9 +93,9 @@ public class NuberDispatch{
 			System.out.println("regionInfo" + regionInfo);
 			System.out.println("name--" + idleDriver.element().name);
 			
-			int await;
-			await =  getBookingsAwaitingDriver();
-			System.out.println("await: " + await);
+//			int await;
+//			await =  getBookingsAwaitingDriver();
+//			System.out.println("await: " + await);
 			
 			
 			return true;
@@ -142,10 +156,33 @@ public class NuberDispatch{
 	 * @param region The region to book them into
 	 * @return returns a Future<BookingResult> object
 	 */
+	
+	/**
+	* 指定の乗客を指定のNuber地域に予約します。
+	*
+	* 乗客が予約されると、getBookingsAwaitingDriver() は1つ大きな値を返します。
+	*
+	* 地域がシャットダウンを求められている場合、予約は拒否され、nullが返されます。
+	*
+	* @param passenger 予約する乗客
+	* @param region 予約する地域
+	* @return Future<BookingResult> オブジェクトを返します
+	*/
+	
 	public Future<BookingResult> bookPassenger(Passenger passenger, String region) {
 		
-		//NuberRegion rNuberRegion =
+		System.out.println("region in bookPassenger: " + region);
+		for (Map.Entry<String, Integer> entry : regionInfo.entrySet()) {
+			if (entry.getKey() == region) {
+				
+				System.out.println("entry.getKey: " + entry.getValue());
+			}
+			//this.semaphoreForEachRegions.put(entry.getKey(), new Semaphore(entry.getValue()));
+		}
 		
+		
+		//Once a passenger is booked, the getBookingsAwaitingDriver() should be returning one higher.
+		bookingAwaitingDriver++;
 		return null;
 	}
 
@@ -158,9 +195,7 @@ public class NuberDispatch{
 	 */
 	public int getBookingsAwaitingDriver()
 	{
-		int awaiting_driver;
-		awaiting_driver =  max_drivers - queueSemaphore.availablePermits();
-		return awaiting_driver;
+		return bookingAwaitingDriver;
 	}
 	
 	/**

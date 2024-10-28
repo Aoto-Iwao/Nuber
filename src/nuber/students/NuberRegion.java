@@ -1,5 +1,6 @@
 package nuber.students;
 
+import java.util.Collection;
 import java.util.concurrent.Future;
 import java.util.concurrent.Semaphore;
 
@@ -17,6 +18,17 @@ import java.util.concurrent.Semaphore;
  * @author james
  *
  */
+
+//* 他の地域から独立して動作する単一のNuber地域。
+//* 中央配車からの予約からドライバーを取得する以外は、
+//*
+//* 地域には、ドライバーが同時に処理できる予約の最大数を定義するmaxSimultaneousJobs設定があります
+//*。予約した乗客数がこの上限を超える場合、
+//* 予約は受け付けられますが、ポジションが空くまで待機する必要があり、
+//*ドライバーが利用可能になるまで待機する必要があります。
+//*
+//* 予約はFIFO（先入れ先出し）順で完了する必要はありません。
+
 public class NuberRegion {
 	
 	//aoto
@@ -54,11 +66,24 @@ public class NuberRegion {
 	 * @param waitingPassenger
 	 * @return a Future that will provide the final BookingResult object from the completed booking
 	 */
+	/**
+	* 指定の乗客の予約を作成し、処理するジョブのコレクションに追加します
+	*。 地域に空席があり、ドライバーが利用可能であれば、
+	* 予約は自動的に開始されます。
+	*
+	* 地域にシャットダウンが指示されている場合、この関数はnullを返し、
+	* 予約が拒否されたことを示すメッセージをコンソールに記録します。
+	*
+	* @param waitingPassenger
+	* @return 完了した予約から最終的な BookingResult オブジェクトを提供する Future
+	*/
+	
 	public Future<BookingResult> bookPassenger(Passenger waitingPassenger)
 	{		
 		try {
 			jobSemaphore.acquire();
 			System.out.println("jobSemaphore: "+ jobSemaphore.getQueueLength());
+			
 			
 			//if 
 			
