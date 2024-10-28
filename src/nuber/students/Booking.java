@@ -2,6 +2,8 @@ package nuber.students;
 
 import java.util.concurrent.Callable;
 
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.IconifyAction;
+
 /**
  * 
  * Booking represents the overall "job" for a passenger getting to their destination.
@@ -25,7 +27,8 @@ public class Booking implements Callable<BookingResult>{
 	//aoto
 	protected NuberDispatch dispatch;
 	protected Passenger passenger;
-	
+	protected Driver driver;
+	protected int jobID;
 
 		
 	/**
@@ -126,9 +129,8 @@ public class Booking implements Callable<BookingResult>{
 		//(Dint jobID, Passenger passenger, Driver driver, long tripDuration)
 		//System.out.println("Thread current name: "+ Thread.currentThread().getName());
 		
-		int jobID;
+	
 		Passenger waitingPassenger;
-		Driver driver;
 	
 		jobID = 1; 
 		waitingPassenger = passenger;
@@ -153,8 +155,24 @@ public class Booking implements Callable<BookingResult>{
 	@Override
 	public String toString()
 	{
-	
-		return null;
+		String driverNameString;
+		String passengerNameString;
+		int bookingID;
+		if (driver.name == null) {
+			driverNameString = null;
+		}else {
+			driverNameString = driver.name;
+		}
+		if (passenger.name == null) {
+			passengerNameString = null;
+		}else {
+			passengerNameString = passenger.name;
+		}
+		bookingID = jobID;
+		
+		String toString = bookingID + ":" + driverNameString + ":" + passengerNameString;
+
+		return toString;
 	}
 
 }
