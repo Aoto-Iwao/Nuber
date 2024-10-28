@@ -20,7 +20,7 @@ import java.util.concurrent.Callable;
  * @author james
  *
  */
-public class Booking implements Callable{
+public class Booking{
 	
 	//aoto
 	protected NuberDispatch dispatch;
@@ -36,6 +36,15 @@ public class Booking implements Callable{
 	 * @param dispatch
 	 * @param passenger
 	 */
+	/**
+	* 指定されたNuberの派遣と乗客に対して、新しい予約を作成します。
+	* ドライバーは提供されません。これは、地域がこの予約の処理を開始できるかどうかによって、
+	* 利用可能なドライバーがいるかが決まるためです。
+	*
+	* @param dispatch
+	* @param passenger
+	*/
+	
 	public Booking(NuberDispatch dispatch, Passenger passenger)
 	{
 		this.dispatch = dispatch;
@@ -59,6 +68,24 @@ public class Booking implements Callable{
 	 * @return A BookingResult containing the final information about the booking 
 	 * @throws InterruptedException 
 	 */
+	/**
+	* ある時点で、予約を担当するNuber Regionが予約を開始（空きがある）し、
+	* Booking.call() 関数を呼び出します。
+	* 1. Dispatchに利用可能なドライバーを問い合わせます
+	* 2. 現在利用可能なドライバーがいない場合、予約は利用可能になるまで待機します。
+	* 3. ドライバーが確保できたら、Driver.pickUpPassenger() 関数を呼び出します。
+	スレッドは、関数が呼び出されている間、一時停止します。
+	* 4. 次に、Driver.driveToDestination() 関数を呼び出し、スレッドは
+	関数が呼び出されている間、一時停止します。
+	* 5. 目的地に到着すると、時間が記録され、合計の移動時間がわかります。
+	* 6. ドライバーは、これで解放されたので、Dispatch の利用可能なドライバーのリストに戻されます。
+	* 7. call() 関数は、BookingResult オブジェクトを返します。
+	* BookingResult コンストラクタに必要な適切な情報を渡します。
+	*
+	* @return 予約に関する最終情報を含む BookingResult
+	* @throws InterruptedException
+	*/
+	
 	public BookingResult call() throws InterruptedException {
 		
 		//aquire driver.

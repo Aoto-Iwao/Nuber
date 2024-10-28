@@ -94,8 +94,22 @@ public class NuberRegion {
 			availableDriver.pickUpPassenger(waitingPassenger);
 			availableDriver.driveToDestination();
 			
+			//* 地域にシャットダウンが指示されている場合、この関数はnullを返し、
+			//* 予約が拒否されたことを示すメッセージをコンソールに記録します。
 			
-			//if 
+			
+			//
+			//(int jobID, Passenger passenger, Driver driver, long tripDuration)
+			int jobID;
+			Passenger passenger;
+			Driver driver;
+			long tripDuration;
+			
+			jobID = 123;
+			passenger = waitingPassenger;
+			driver = availableDriver;
+			tripDuration = waitingPassenger.getTravelTime();
+			BookingResult bookingResult = new BookingResult(jobID,passenger,driver,tripDuration); 
 			
 		}catch (Exception e) {
 			// TODO: handle exception
