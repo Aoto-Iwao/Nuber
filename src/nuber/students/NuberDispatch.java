@@ -37,9 +37,11 @@ public class NuberDispatch{
 	protected BlockingQueue<Driver> idleDriver = new ArrayBlockingQueue<Driver>(max_drivers);
 	
 	//this is for enable to set the semaphore for one or more regions.
-	protected HashMap<String, Semaphore> semaphoreForEachRegions;
+	//protected HashMap<String, Semaphore> semaphoreForEachRegions;
 	
 	private int bookingAwaitingDriver = 0;
+	
+	protected HashMap<String, NuberRegion> nuberRegionHashMap;
 	
 	
 	/**
@@ -59,10 +61,11 @@ public class NuberDispatch{
 		
 		//this.queueSemaphore = new Semaphore(max_drivers);
 		
-		this.semaphoreForEachRegions = new HashMap<>();
+		//this.semaphoreForEachRegions = new HashMap<>();
 		//EntrySetでMapの全てのStringとIntの組み合わせを返して、一つずつ取り出すためにEntryとしてる。
 		for (Map.Entry<String, Integer> entry : regionInfo.entrySet()) {
-			this.semaphoreForEachRegions.put(entry.getKey(), new Semaphore(entry.getValue()));
+			//this.semaphoreForEachRegions.put(entry.getKey(), new Semaphore(entry.getValue()));
+			this.nuberRegionHashMap.put(entry.getKey(), new NuberRegion(this, entry.getKey(), entry.getValue()))
 		}
 		
 	}
@@ -174,6 +177,7 @@ public class NuberDispatch{
 		System.out.println("region in bookPassenger: " + region);
 		
 		Semaphore selectedRegionSemaphore = semaphoreForEachRegions.get(region);
+		
 		try {
 			System.out.println("availablePermits: " + selectedRegionSemaphore.availablePermits());
 			selectedRegionSemaphore.acquire();
