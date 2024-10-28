@@ -114,24 +114,25 @@ public class Booking implements Callable<BookingResult>{
 		availableDriver.driveToDestination();
 		
 		//Once at the destination, the time is recorded, so we know the total trip duration. 
+		//* 5. 目的地に到着すると、時間が記録され、合計の移動時間がわかります。
+		long tripDuration;
+		tripDuration = passenger.getTravelTime();
 		
-		//
-		//(int jobID, Passenger passenger, Driver driver, long tripDuration)
+		//6. ドライバーは、これで解放されたので、Dispatch の利用可能なドライバーのリストに戻されます。
+		dispatch.addDriver(availableDriver);
 		
-		
-		
-		System.out.println("Thread current name: "+ Thread.currentThread().getName());
-		
+		//7. call() 関数は、BookingResult オブジェクトを返します。 BookingResult コンストラクタに必要な適切な情報を渡します。
+
+		//(Dint jobID, Passenger passenger, Driver driver, long tripDuration)
+		//System.out.println("Thread current name: "+ Thread.currentThread().getName());
 		
 		int jobID;
 		Passenger waitingPassenger;
 		Driver driver;
-		long tripDuration;
-		
+	
 		jobID = 1; 
 		waitingPassenger = passenger;
 		driver = availableDriver;
-		tripDuration = passenger.getTravelTime();
 		BookingResult bookingResult = new BookingResult(jobID,waitingPassenger,driver,tripDuration); 
 		
 		jobID += 1;
@@ -152,7 +153,7 @@ public class Booking implements Callable<BookingResult>{
 	@Override
 	public String toString()
 	{
-		
+	
 		return null;
 	}
 

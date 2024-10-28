@@ -82,19 +82,19 @@ public class NuberDispatch{
 	{
 		try {
 			
-			System.out.println("max_driver: " + max_drivers);
-			//BlockingQueue queue = new ArrayBlockingQueue(MAX_DRIVERS);
-			System.out.println("Available Semaphore: "+ queueSemaphore.availablePermits());
-			System.out.println("Here is addDriver");
+			//System.out.println("max_driver: " + max_drivers);
+			
+			//System.out.println("Available Semaphore: "+ queueSemaphore.availablePermits());
+			//System.out.println("Here is addDriver");
 			queueSemaphore.acquire();
-			System.out.println("Semaphore: "+ queueSemaphore.availablePermits());
-			System.out.println("Here is addDriver");
+			//System.out.println("Semaphore: "+ queueSemaphore.availablePermits());
+			//System.out.println("Here is addDriver");
 			idleDriver.put(newDriver);
 			
-			System.out.println("Here is addDriver");
-			//System.out.println("take: " + idleDriver.take());
-			System.out.println("regionInfo" + regionInfo);
-			System.out.println("name--" + idleDriver.element().name);
+			//System.out.println("Here is addDriver");
+			
+			//System.out.println("regionInfo" + regionInfo);
+			//System.out.println("name--" + idleDriver.element().name);
 			
 //			int await;
 //			await =  getBookingsAwaitingDriver();
@@ -119,12 +119,12 @@ public class NuberDispatch{
 	public Driver getDriver()
 	{
 		try {
-			System.out.println("Here is getDriver");
+			//System.out.println("Here is getDriver");
 			Driver driver = idleDriver.take();
-			System.out.println("Here is after driver = (Driver) idleDriver.take();" + driver);
-			System.out.println("Semaphore: "+ queueSemaphore.availablePermits());
+			//System.out.println("Here is after driver = (Driver) idleDriver.take();" + driver);
+			//System.out.println("Semaphore: "+ queueSemaphore.availablePermits());
 			queueSemaphore.release();
-			System.out.println("Semaphore: "+ queueSemaphore.availablePermits());
+			//System.out.println("Semaphore: "+ queueSemaphore.availablePermits());
 			return driver;
 		}catch (Exception e) {
 			// TODO: handle exception
@@ -174,7 +174,7 @@ public class NuberDispatch{
 	
 	public Future<BookingResult> bookPassenger(Passenger passenger, String region) {
 		
-		System.out.println("region in bookPassenger: " + region);
+		//System.out.println("region in bookPassenger: " + region);
 		
 		NuberRegion nuberRegion = nuberRegionHashMap.get(region);
 		//Semaphore selectedRegionSemaphore = nuberRegionHashMap.get(region);

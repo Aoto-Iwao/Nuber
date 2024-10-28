@@ -24,8 +24,8 @@ public class Driver extends Person {
 		passenger = newPassenger;
 		int actualDelay;
 		actualDelay = randomWithRange(0, maxSleep); 
-		System.out.println("Actual delay is "+actualDelay);
-		System.out.println("the passenger is: " + passenger.name);
+		//System.out.println("Actual delay is "+actualDelay);
+		//System.out.println("the passenger is: " + passenger.name);
 		Thread.sleep(actualDelay);
 	}
 
