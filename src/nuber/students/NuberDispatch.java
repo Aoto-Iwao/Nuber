@@ -211,6 +211,9 @@ public class NuberDispatch{
 	 * Tells all regions to finish existing bookings already allocated, and stop accepting new bookings
 	 */
 	public void shutdown() {
+		for (NuberRegion nuberRegion : nuberRegionHashMap.values()) {
+			nuberRegion.shutdown();
+		}
 	}
 
 }
