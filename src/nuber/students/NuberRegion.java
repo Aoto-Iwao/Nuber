@@ -81,8 +81,12 @@ public class NuberRegion {
 	public Future<BookingResult> bookPassenger(Passenger waitingPassenger)
 	{		
 		try {
+			System.out.println("maxSimultaneousJobs: " + maxSimultaneousJobs);
+			System.out.println("jobSemaphore: "+ jobSemaphore.availablePermits());
+			//指定の乗客の予約を作成し、処理するジョブのコレクションに追加します
 			jobSemaphore.acquire();
-			System.out.println("jobSemaphore: "+ jobSemaphore.getQueueLength());
+			System.out.println("jobSemaphore: "+ jobSemaphore.availablePermits());
+			System.out.println("Booking for region: " + regionName);
 			
 			
 			//if 

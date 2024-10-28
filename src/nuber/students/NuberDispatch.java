@@ -9,7 +9,6 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Future;
 import java.util.concurrent.Semaphore;
 
-import javax.swing.plaf.synth.Region;
 
 /**
  * The core Dispatch class that instantiates and manages everything for Nuber
@@ -60,8 +59,8 @@ public class NuberDispatch{
 //		this.queueSemaphore = new Semaphore(max_drivers);
 		
 		//this.queueSemaphore = new Semaphore(max_drivers);
-		
 		//this.semaphoreForEachRegions = new HashMap<>();
+		this.nuberRegionHashMap = new HashMap<>();
 		//EntrySetでMapの全てのStringとIntの組み合わせを返して、一つずつ取り出すためにEntryとしてる。
 		for (Map.Entry<String, Integer> entry : regionInfo.entrySet()) {
 			//this.semaphoreForEachRegions.put(entry.getKey(), new Semaphore(entry.getValue()));
