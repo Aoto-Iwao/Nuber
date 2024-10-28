@@ -146,6 +146,7 @@ public class NuberRegion {
 	 */
 	public void shutdown()
 	{
+		executor.shutdown();
 	}
 		
 }

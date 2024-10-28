@@ -128,7 +128,6 @@ public class Booking implements Callable<BookingResult>{
 		Driver driver;
 		long tripDuration;
 		
-		//MUST THINK ABOUT HOW TO MAKE JOBID.
 		jobID = 1; 
 		waitingPassenger = passenger;
 		driver = availableDriver;
