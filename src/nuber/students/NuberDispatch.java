@@ -172,14 +172,16 @@ public class NuberDispatch{
 	public Future<BookingResult> bookPassenger(Passenger passenger, String region) {
 		
 		System.out.println("region in bookPassenger: " + region);
-		for (Map.Entry<String, Integer> entry : regionInfo.entrySet()) {
-			if (entry.getKey() == region) {
-				
-				System.out.println("entry.getKey: " + entry.getValue());
-			}
-			//this.semaphoreForEachRegions.put(entry.getKey(), new Semaphore(entry.getValue()));
-		}
 		
+		Semaphore selectedRegionSemaphore = semaphoreForEachRegions.get(region);
+		try {
+			System.out.println("availablePermits: " + selectedRegionSemaphore.availablePermits());
+			selectedRegionSemaphore.acquire();
+			System.out.println("availablePermits: " + selectedRegionSemaphore.availablePermits());
+			
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
 		
 		//Once a passenger is booked, the getBookingsAwaitingDriver() should be returning one higher.
 		bookingAwaitingDriver++;
