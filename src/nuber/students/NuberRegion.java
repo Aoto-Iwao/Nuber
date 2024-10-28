@@ -1,8 +1,12 @@
 package nuber.students;
 
+import java.nio.channels.NonReadableChannelException;
 import java.util.Collection;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * A single Nuber region that operates independently of other regions, other than getting 
@@ -38,6 +42,9 @@ public class NuberRegion {
 	
 	protected Semaphore jobSemaphore;
 	
+	//Use thread pool.
+	protected ExecutorService executor;
+	
 
 	
 	/**
@@ -53,6 +60,9 @@ public class NuberRegion {
 		this.regionName = regionName;
 		this.maxSimultaneousJobs = maxSimultaneousJobs;
 		this.jobSemaphore = new Semaphore(maxSimultaneousJobs);
+		
+		//use thread pool.
+		this.executor = Executors.newFixedThreadPool(maxSimultaneousJobs);
 	}
 	
 	/**
@@ -96,7 +106,7 @@ public class NuberRegion {
 			
 			
 //			availableDriver.pickUpPassenger(waitingPassenger);
-//			availableDriver.driveToDestination();
+//			availableDriver.driveToDestination(); these are already implemented in Booking class.
 //			
 			//* 地域にシャットダウンが指示されている場合、この関数はnullを返し、
 			//* 予約が拒否されたことを示すメッセージをコンソールに記録します。

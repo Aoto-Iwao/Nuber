@@ -95,7 +95,7 @@ public class Booking implements Callable<BookingResult>{
 		
 		//2. 現在利用可能なドライバーがいない場合、予約は利用可能になるまで待機します。
 		//If no driver is currently available, the booking must wait
-		if (availableDriverAmount <= 0) {
+		while (availableDriverAmount < 1) {
 			this.wait();
 		}
 		Driver availableDriver = dispatch.getDriver();
