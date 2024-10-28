@@ -88,6 +88,12 @@ public class NuberRegion {
 			System.out.println("jobSemaphore: "+ jobSemaphore.availablePermits());
 			System.out.println("Booking for region: " + regionName);
 			
+			//地域に空席があり、ドライバーが利用可能であれば、
+			// 予約は自動的に開始されます。
+			Driver availableDriver = dispatch.getDriver();
+			availableDriver.pickUpPassenger(waitingPassenger);
+			availableDriver.driveToDestination();
+			
 			
 			//if 
 			
