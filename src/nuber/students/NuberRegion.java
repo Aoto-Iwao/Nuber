@@ -90,26 +90,19 @@ public class NuberRegion {
 			
 			//地域に空席があり、ドライバーが利用可能であれば、
 			// 予約は自動的に開始されます。
-			Driver availableDriver = dispatch.getDriver();
-			availableDriver.pickUpPassenger(waitingPassenger);
-			availableDriver.driveToDestination();
+			//Driver availableDriver = dispatch.getDriver();
 			
+			Booking booking = new Booking(dispatch, waitingPassenger);
+			
+			
+//			availableDriver.pickUpPassenger(waitingPassenger);
+//			availableDriver.driveToDestination();
+//			
 			//* 地域にシャットダウンが指示されている場合、この関数はnullを返し、
 			//* 予約が拒否されたことを示すメッセージをコンソールに記録します。
 			
 			
-			//
-			//(int jobID, Passenger passenger, Driver driver, long tripDuration)
-			int jobID;
-			Passenger passenger;
-			Driver driver;
-			long tripDuration;
 			
-			jobID = 123;
-			passenger = waitingPassenger;
-			driver = availableDriver;
-			tripDuration = waitingPassenger.getTravelTime();
-			BookingResult bookingResult = new BookingResult(jobID,passenger,driver,tripDuration); 
 			
 		}catch (Exception e) {
 			// TODO: handle exception

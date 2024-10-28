@@ -20,7 +20,7 @@ import java.util.concurrent.Callable;
  * @author james
  *
  */
-public class Booking{
+public class Booking implements Callable<BookingResult>{
 	
 	//aoto
 	protected NuberDispatch dispatch;
@@ -86,28 +86,49 @@ public class Booking{
 	* @throws InterruptedException
 	*/
 	
-	public BookingResult call() throws InterruptedException {
+	public synchronized BookingResult call() throws InterruptedException {
 		
-		//aquire driver.
-		dispatch.getBookingsAwaitingDriver();
+		//acquire driver.
+		//1. Dispatchに利用可能なドライバーを問い合わせます
+		int availableDriverAmount;
+		availableDriverAmount = dispatch.getBookingsAwaitingDriver();
 		
-		
-		Driver driver = dispatch.getDriver();
+		//2. 現在利用可能なドライバーがいない場合、予約は利用可能になるまで待機します。
 		//If no driver is currently available, the booking must wait
-		if (driver == null) {
-			
+		if (availableDriverAmount <= 0) {
+			this.wait();
 		}
+		Driver availableDriver = dispatch.getDriver();
+		
+//		3. ドライバーが確保できたら、Driver.pickUpPassenger() 関数を呼び出します。
+//		スレッドは、関数が呼び出されている間、一時停止します。
 		//Once it has a driver, it must call the Driver.pickUpPassenger() function, with the 
 		 //thread pausing whilst as function is called.
-		driver.pickUpPassenger(passenger);
+		availableDriver.pickUpPassenger(passenger);
 		
+//		4. 次に、Driver.driveToDestination() 関数を呼び出し、スレッドは
+//		関数が呼び出されている間、一時停止します。
 		//call the Driver.driveToDestination() function, with the thread pausing 
 		//whilst as function is called.
-		driver.driveToDestination();
+		availableDriver.driveToDestination();
 		
 		//Once at the destination, the time is recorded, so we know the total trip duration. 
 		
-		return null;
+		//
+		//(int jobID, Passenger passenger, Driver driver, long tripDuration)
+		int jobID;
+		Passenger waitingPassenger;
+		Driver driver;
+		long tripDuration;
+		
+		//MUST THINK ABOUT HOW TO MAKE JOBID.
+		jobID = 123; 
+		waitingPassenger = passenger;
+		driver = availableDriver;
+		tripDuration = passenger.getTravelTime();
+		BookingResult bookingResult = new BookingResult(jobID,waitingPassenger,driver,tripDuration); 
+		
+		return bookingResult;
 		
 	}
 	
