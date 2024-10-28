@@ -98,6 +98,7 @@ public class Booking implements Callable<BookingResult>{
 		while (availableDriverAmount < 1) {
 			this.wait();
 		}
+		
 		Driver availableDriver = dispatch.getDriver();
 		
 //		3. ドライバーが確保できたら、Driver.pickUpPassenger() 関数を呼び出します。
@@ -116,18 +117,25 @@ public class Booking implements Callable<BookingResult>{
 		
 		//
 		//(int jobID, Passenger passenger, Driver driver, long tripDuration)
+		
+		
+		
+		System.out.println("Thread current name: "+ Thread.currentThread().getName());
+		
+		
 		int jobID;
 		Passenger waitingPassenger;
 		Driver driver;
 		long tripDuration;
 		
 		//MUST THINK ABOUT HOW TO MAKE JOBID.
-		jobID = 123; 
+		jobID = 1; 
 		waitingPassenger = passenger;
 		driver = availableDriver;
 		tripDuration = passenger.getTravelTime();
 		BookingResult bookingResult = new BookingResult(jobID,waitingPassenger,driver,tripDuration); 
 		
+		jobID += 1;
 		return bookingResult;
 		
 	}

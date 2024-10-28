@@ -2,6 +2,7 @@ package nuber.students;
 
 import java.nio.channels.NonReadableChannelException;
 import java.util.Collection;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -100,9 +101,26 @@ public class NuberRegion {
 			
 			//地域に空席があり、ドライバーが利用可能であれば、
 			// 予約は自動的に開始されます。
-			//Driver availableDriver = dispatch.getDriver();
+			//check w9 lec around p38 if I need.
+			Future<BookingResult> future = executor.submit(new Callable<BookingResult>() {
+				@Override
+				public BookingResult call() throws Exception {
+					// TODO Auto-generated method stub
+					//Driver availableDriver = dispatch.getDriver();
+					Booking booking = new Booking(dispatch, waitingPassenger);
+					return booking.call();
+				}
+				
+			});
+			//semaphore release because book is done.
+			jobSemaphore.release();
 			
-			Booking booking = new Booking(dispatch, waitingPassenger);
+			//System.out.println("future: shhould return null if task completed: " + future.get());
+			
+			return future;
+	
+			
+			
 			
 			
 //			availableDriver.pickUpPassenger(waitingPassenger);
