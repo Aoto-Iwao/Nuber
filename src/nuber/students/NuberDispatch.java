@@ -65,7 +65,8 @@ public class NuberDispatch{
 		//EntrySetでMapの全てのStringとIntの組み合わせを返して、一つずつ取り出すためにEntryとしてる。
 		for (Map.Entry<String, Integer> entry : regionInfo.entrySet()) {
 			//this.semaphoreForEachRegions.put(entry.getKey(), new Semaphore(entry.getValue()));
-			this.nuberRegionHashMap.put(entry.getKey(), new NuberRegion(this, entry.getKey(), entry.getValue()))
+			// for each region, create a new NuberRegion. 
+			this.nuberRegionHashMap.put(entry.getKey(), new NuberRegion(this, entry.getKey(), entry.getValue()));
 		}
 		
 	}
@@ -176,20 +177,23 @@ public class NuberDispatch{
 		
 		System.out.println("region in bookPassenger: " + region);
 		
-		Semaphore selectedRegionSemaphore = semaphoreForEachRegions.get(region);
+		NuberRegion nuberRegion = nuberRegionHashMap.get(region);
+		//Semaphore selectedRegionSemaphore = nuberRegionHashMap.get(region);
 		
-		try {
-			System.out.println("availablePermits: " + selectedRegionSemaphore.availablePermits());
-			selectedRegionSemaphore.acquire();
-			System.out.println("availablePermits: " + selectedRegionSemaphore.availablePermits());
-			
-		}catch (Exception e) {
-			// TODO: handle exception
-		}
+//		try {
+//			System.out.println("availablePermits: " + selectedRegionSemaphore.availablePermits());
+//			selectedRegionSemaphore.acquire();
+//			System.out.println("availablePermits: " + selectedRegionSemaphore.availablePermits());
+//			
+//		}catch (Exception e) {
+//			// TODO: handle exception
+//		}
 		
 		//Once a passenger is booked, the getBookingsAwaitingDriver() should be returning one higher.
 		bookingAwaitingDriver++;
-		return null;
+		
+		Future<BookingResult> bookingFuture = nuberRegion.bookPassenger(passenger);
+		return bookingFuture;
 	}
 
 	/**
