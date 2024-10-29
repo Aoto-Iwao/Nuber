@@ -23,13 +23,10 @@ public class NuberDispatch{
 	 * The maximum number of idle drivers that can be awaiting a booking 
 	 */
 	private final int MAX_DRIVERS = 999;
-	
 	private boolean logEvents = false;
-	
 	private HashMap<String, Integer> regionInfo;
 	
 	// added by Aoto
-	
 	//private int max_drivers = MAX_DRIVERS;
 	//private Semaphore queueSemaphore = new Semaphore(max_drivers);
 	
@@ -38,9 +35,7 @@ public class NuberDispatch{
 	
 	//this is for enable to set the semaphore for one or more regions.
 	//protected HashMap<String, Semaphore> semaphoreForEachRegions;
-	
 	private int bookingAwaitingDriver = 0;
-	
 	protected HashMap<String, NuberRegion> nuberRegionHashMap;
 	
 	
@@ -57,8 +52,7 @@ public class NuberDispatch{
 		this.logEvents = logEvents;
 		//Update max driver by its region. 
 //		this.max_drivers = Collections.max(regionInfo.values());
-//		this.queueSemaphore = new Semaphore(max_drivers);
-		
+//		this.queueSemaphore = new Semaphore(max_drivers);	
 		//this.queueSemaphore = new Semaphore(max_drivers);
 		//this.semaphoreForEachRegions = new HashMap<>();
 		this.nuberRegionHashMap = new HashMap<>();
@@ -83,8 +77,7 @@ public class NuberDispatch{
 	public boolean addDriver(Driver newDriver)
 	{
 		try {
-			System.out.println("Here is addDriver and idle driver size: " + idleDriver.size() + " NewDriver is : " + newDriver.name);
-			
+			//System.out.println("Here is addDriver and idle driver size: " + idleDriver.size() + " NewDriver is : " + newDriver.name);
 			//dont need to use semaphore since Blockingqueue is thread safe.
 			idleDriver.put(newDriver);
 			return true;
@@ -106,9 +99,7 @@ public class NuberDispatch{
 	public Driver getDriver()
 	{
 		try {
-			
-			System.out.println("Here is getDriver and idle driver size: " + idleDriver.size());
-		
+			//System.out.println("Here is getDriver and idle driver size: " + idleDriver.size());
 			return idleDriver.take();
 		}catch (Exception e) {
 			// TODO: handle exception
@@ -122,7 +113,6 @@ public class NuberDispatch{
 		}
 	}
 
-	
 	/**
 	 * Prints out the string
 	 * 	    booking + ": " + message
@@ -163,12 +153,9 @@ public class NuberDispatch{
 	*/
 	
 	public Future<BookingResult> bookPassenger(Passenger passenger, String region) {
-		
 		//System.out.println("region in bookPassenger: " + region);
-		
 		NuberRegion nuberRegion = nuberRegionHashMap.get(region);
 		//Semaphore selectedRegionSemaphore = nuberRegionHashMap.get(region);
-		
 //		try {
 //			System.out.println("availablePermits: " + selectedRegionSemaphore.availablePermits());
 //			selectedRegionSemaphore.acquire();
@@ -177,15 +164,11 @@ public class NuberDispatch{
 //		}catch (Exception e) {
 //			// TODO: handle exception
 //		}
-		
-		//Once a passenger is booked, the getBookingsAwaitingDriver() should be returning one higher.
-		//bookingAwaitingDriver++;
-		
-		
 		Future<BookingResult> bookingFuture = nuberRegion.bookPassenger(passenger);
 		
 		//If null, the BookingAwaitingDriver shouldnt be incremented.
 		if (bookingFuture != null) {
+			//Once a passenger is booked, the getBookingsAwaitingDriver() should be returning one higher.
 			incrementalBookingAwaitingDriver();
 		}
 		return bookingFuture;
@@ -210,7 +193,7 @@ public class NuberDispatch{
 	public synchronized void incrementalBookingAwaitingDriver() {
 		bookingAwaitingDriver++;
 	}
-	public synchronized void reduceBookingAwaitingDriver() {
+	public synchronized void decrementalBookingAwaitingDriver() {
 		bookingAwaitingDriver--;
 	}
 	

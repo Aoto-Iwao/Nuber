@@ -109,7 +109,7 @@ public class Booking implements Callable<BookingResult>{
 		
 		//System.out.println("Driver availableDriver = dispatch.getDriver(): " + availableDriver);
 		//worksfine.
-		dispatch.reduceBookingAwaitingDriver();
+		dispatch.decrementalBookingAwaitingDriver();
 		//System.out.println("dispatch.getBookingsAwaitingDriver();" );
 		
 //		3. ドライバーが確保できたら、Driver.pickUpPassenger() 関数を呼び出します。
