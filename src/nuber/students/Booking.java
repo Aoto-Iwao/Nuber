@@ -58,7 +58,7 @@ public class Booking implements Callable<BookingResult>{
 	{
 		this.dispatch = dispatch;
 		this.passenger = passenger;	
-		System.out.println("Booking class: " + this.dispatch + ": " + this.passenger);
+		//System.out.println("Booking class: " + this.dispatch + ": " + this.passenger);
 		
 		this.jobID = incrementalID();
 	}
