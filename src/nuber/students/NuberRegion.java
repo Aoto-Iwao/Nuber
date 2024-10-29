@@ -46,6 +46,8 @@ public class NuberRegion {
 	//Use thread pool.
 	protected ExecutorService executor;
 	
+	protected boolean isShutdown = false;
+	
 
 	
 	/**
@@ -96,6 +98,13 @@ public class NuberRegion {
 	public Future<BookingResult> bookPassenger(Passenger waitingPassenger)
 	{		
 		try {
+			
+			//* 地域にシャットダウンが指示されている場合、この関数はnullを返し、
+			//* 予約が拒否されたことを示すメッセージをコンソールに記録します。
+			if (isShutdown) {
+				return null;
+			}
+			
 			//System.out.println("maxSimultaneousJobs: " + maxSimultaneousJobs);
 			//System.out.println("jobSemaphore: "+ jobSemaphore.availablePermits());
 			//指定の乗客の予約を作成し、処理するジョブのコレクションに追加します
@@ -121,6 +130,8 @@ public class NuberRegion {
 			
 			//System.out.println("future: shhould return null if task completed: " + future.get());
 			
+	
+			
 			return future;
 	
 			
@@ -130,8 +141,7 @@ public class NuberRegion {
 //			availableDriver.pickUpPassenger(waitingPassenger);
 //			availableDriver.driveToDestination(); these are already implemented in Booking class.
 //			
-			//* 地域にシャットダウンが指示されている場合、この関数はnullを返し、
-			//* 予約が拒否されたことを示すメッセージをコンソールに記録します。
+
 			
 			
 			
@@ -150,6 +160,7 @@ public class NuberRegion {
 	 */
 	public void shutdown()
 	{
+		isShutdown = true;
 		executor.shutdown();
 	}
 		

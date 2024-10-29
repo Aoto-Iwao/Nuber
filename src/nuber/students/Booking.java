@@ -151,13 +151,14 @@ public class Booking implements Callable<BookingResult>{
 		//(Dint jobID, Passenger passenger, Driver driver, long tripDuration)
 		//System.out.println("Thread current name: "+ Thread.currentThread().getName());
 		
+		//works fine.
 		BookingResult bookingResult = new BookingResult(jobID,passenger,availableDriver,tripDuration); 
 		
-		System.out.println("Availabble driver: " + availableDriver);
+		//System.out.println("Availabble driver: " + availableDriver);
 		System.out.println("bookingResult: "+ bookingResult.jobID + " "+ bookingResult.passenger
 				+ " " + bookingResult.driver + " " + bookingResult.tripDuration);
 		
-		jobID += 1;
+		jobID++;
 		return bookingResult;
 		
 	}

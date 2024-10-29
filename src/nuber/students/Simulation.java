@@ -59,6 +59,7 @@ public class Simulation {
 				bookings.add(f);
 			}
 		}
+		System.out.println("SIMULATION_____________");
 
 		// tell all the regions to run all pending passengers, and then shutdown
 		dispatch.shutdown();
