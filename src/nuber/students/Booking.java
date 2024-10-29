@@ -109,10 +109,10 @@ public class Booking implements Callable<BookingResult>{
 		System.out.println("Driver availableDriver = dispatch.getDriver(): " + availableDriver);
 		
 
-		int frau =  dispatch.getBookingsAwaitingDriver();
+		dispatch.reduceBookingAwaitingDriver();
 		
 		//return1; works fine i think.
-		System.out.println("dispatch.getBookingsAwaitingDriver();" + frau );
+		System.out.println("dispatch.getBookingsAwaitingDriver();" );
 		
 //		3. ドライバーが確保できたら、Driver.pickUpPassenger() 関数を呼び出します。
 //		スレッドは、関数が呼び出されている間、一時停止します。

@@ -179,7 +179,8 @@ public class NuberDispatch{
 //		}
 		
 		//Once a passenger is booked, the getBookingsAwaitingDriver() should be returning one higher.
-		bookingAwaitingDriver++;
+		//bookingAwaitingDriver++;
+		incrementalBookingAwaitingDriver();
 		
 		Future<BookingResult> bookingFuture = nuberRegion.bookPassenger(passenger);
 		return bookingFuture;
@@ -195,11 +196,17 @@ public class NuberDispatch{
 	//works fine.
 	public int getBookingsAwaitingDriver()
 	{
-		System.out.println("bookingAwaitingDriver: before " + bookingAwaitingDriver);
-		int awaiting = bookingAwaitingDriver;
+		return bookingAwaitingDriver;
+	}
+	
+	
+	//Add by Aoto. 
+	
+	public synchronized void incrementalBookingAwaitingDriver() {
+		bookingAwaitingDriver++;
+	}
+	public synchronized void reduceBookingAwaitingDriver() {
 		bookingAwaitingDriver--;
-		System.out.println("bookingAwaitingDriver: after " + bookingAwaitingDriver);
-		return awaiting;
 	}
 	
 	/**
