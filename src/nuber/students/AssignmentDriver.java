@@ -38,6 +38,7 @@ public class AssignmentDriver {
 		//test creating a dispatch object
 		NuberDispatch dispatch = new NuberDispatch(testRegions, logEvents);
 		
+		
 		//create two new bookings
 		Booking b1 = new Booking(dispatch, testPassenger);
 		Booking b2 = new Booking(dispatch, testPassenger);
@@ -63,7 +64,7 @@ public class AssignmentDriver {
 		regions.put("North", 50);
 		regions.put("South", 50);
 		
-		new Simulation(regions, 1, 10, 1000, logEvents);
+		//new Simulation(regions, 1, 10, 1000, logEvents);
 		//new Simulation(regions, 5, 10, 1000, logEvents);
 		//new Simulation(regions, 10, 10, 1000, logEvents);
 		//new Simulation(regions, 10, 100, 1000, logEvents);
