@@ -133,7 +133,12 @@ public class NuberDispatch{
 			//return driver;
 		}catch (Exception e) {
 			// TODO: handle exception
-			System.out.println("error");
+			if (idleDriver.size() == 0) {
+				System.out.println("Available driver is now 0. Sorry.");
+			}
+			else {
+				System.out.println("error");
+			}
 			return null;
 		}
 	}
