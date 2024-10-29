@@ -64,6 +64,8 @@ public class NuberRegion {
 		
 		//use thread pool.
 		this.executor = Executors.newFixedThreadPool(maxSimultaneousJobs);
+		
+		System.out.println("test in region: " + this.regionName);
 	}
 	
 	/**

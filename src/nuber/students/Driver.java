@@ -5,9 +5,11 @@ public class Driver extends Person {
 	//aoto
 	private Passenger passenger;
 	
+	//works fine.
 	public Driver(String driverName, int maxSleep)
 	{
 		super(driverName, maxSleep);
+		System.out.println("test Driver: " + driverName + ": " + maxSleep);
 	}
 	
 	/**
@@ -19,13 +21,15 @@ public class Driver extends Person {
 	 */
 //	Output was Actual delay is 9
 //	the passenger is: Alex
+	
+	//works fine.
 	public void pickUpPassenger(Passenger newPassenger)throws InterruptedException
 	{
 		passenger = newPassenger;
 		int actualDelay;
 		actualDelay = randomWithRange(0, maxSleep); 
 		//System.out.println("Actual delay is "+actualDelay);
-		//System.out.println("the passenger is: " + passenger.name);
+		System.out.println("the passenger is: " + passenger.name);
 		Thread.sleep(actualDelay);
 	}
 
@@ -36,10 +40,13 @@ public class Driver extends Person {
 	 * @throws InterruptedException
 	 */
 	
+	//works fine.
+	
 	//Output:  travel time of: Alex -> 59
 	public void driveToDestination() throws InterruptedException {
 		int travelTime;
 		travelTime = passenger.getTravelTime();
+		Thread.sleep(travelTime);
 		System.out.println("travel time of: " + passenger.name + " -> " + travelTime);
 	}
 	
