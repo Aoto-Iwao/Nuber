@@ -36,16 +36,14 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 public class NuberRegion {
 	
-	//aoto
+	//Added by Aoto
 	protected NuberDispatch dispatch;
 	protected String regionName;
 	protected int maxSimultaneousJobs;
-	
 	protected Semaphore jobSemaphore;
 	
 	//Use thread pool.
 	protected ExecutorService executor;
-	
 	protected boolean isShutdown = false;
 	
 
@@ -68,8 +66,7 @@ public class NuberRegion {
 		
 		//use thread pool.
 		this.executor = Executors.newFixedThreadPool(maxSimultaneousJobs);
-		
-		System.out.println("test in region: " + this.regionName);
+		//System.out.println("test in region: " + this.regionName);
 	}
 	
 	/**
@@ -104,7 +101,6 @@ public class NuberRegion {
 			if (isShutdown) {
 				return null;
 			}
-			
 			//System.out.println("maxSimultaneousJobs: " + maxSimultaneousJobs);
 			//System.out.println("jobSemaphore: "+ jobSemaphore.availablePermits());
 			//指定の乗客の予約を作成し、処理するジョブのコレクションに追加します
@@ -118,40 +114,19 @@ public class NuberRegion {
 			Future<BookingResult> future = executor.submit(new Callable<BookingResult>() {
 				@Override
 				public BookingResult call() throws Exception {
-					// TODO Auto-generated method stub
-					//Driver availableDriver = dispatch.getDriver();
 					Booking booking = new Booking(dispatch, waitingPassenger);
 					return booking.call();
 				}
 				
 			});
 			//semaphore release because book is done.
-			jobSemaphore.release();
-			
+			jobSemaphore.release();	
 			//System.out.println("future: shhould return null if task completed: " + future.get());
-			
-	
-			
-			return future;
-	
-			
-			
-			
-			
-//			availableDriver.pickUpPassenger(waitingPassenger);
-//			availableDriver.driveToDestination(); these are already implemented in Booking class.
-//			
-
-			
-			
-			
-			
+			return future;			
 		}catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("Error in bookPassenger");
 		}
-		
-		
 		return null;
 	}
 	
