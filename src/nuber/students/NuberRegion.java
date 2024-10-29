@@ -55,6 +55,8 @@ public class NuberRegion {
 	 * @param regionName The regions name, unique for the dispatch instance
 	 * @param maxSimultaneousJobs The maximum number of simultaneous bookings the region is allowed to process
 	 */
+	
+	//works fine.
 	public NuberRegion(NuberDispatch dispatch, String regionName, int maxSimultaneousJobs)
 	{
 		this.dispatch = dispatch;

@@ -30,7 +30,7 @@ public class NuberDispatch{
 	// added by Aoto
 	
 	private int max_drivers = MAX_DRIVERS;
-	private Semaphore queueSemaphore = new Semaphore(max_drivers);
+	//private Semaphore queueSemaphore = new Semaphore(max_drivers);
 	
 	//this is for driver. 
 	protected BlockingQueue<Driver> idleDriver = new ArrayBlockingQueue<Driver>(max_drivers);
@@ -83,12 +83,15 @@ public class NuberDispatch{
 		try {
 			
 			//System.out.println("max_driver: " + max_drivers);
-			
 			//System.out.println("Available Semaphore: "+ queueSemaphore.availablePermits());
 			//System.out.println("Here is addDriver");
-			queueSemaphore.acquire();
+			
+			//queueSemaphore.acquire();
+			
 			//System.out.println("Semaphore: "+ queueSemaphore.availablePermits());
 			//System.out.println("Here is addDriver");
+			
+			//dont need to use semaphore since Blockingqueue is thread safe.
 			idleDriver.put(newDriver);
 			
 			//System.out.println("Here is addDriver");
@@ -99,14 +102,10 @@ public class NuberDispatch{
 //			int await;
 //			await =  getBookingsAwaitingDriver();
 //			System.out.println("await: " + await);
-			
-			
 			return true;
-		}catch (Exception e) {
-			// TODO: handle exception
-			System.out.println("error");
-			return false;
-		}	
+		}catch (InterruptedException ie) { ie.printStackTrace(); 
+		return false;} 
+
 	}
 	
 	/**
@@ -119,15 +118,17 @@ public class NuberDispatch{
 	public Driver getDriver()
 	{
 		try {
-			//System.out.println("Here is getDriver");
+			System.out.println("Here is getDriver");
 			Driver driver = idleDriver.take();
-			//System.out.println("Here is after driver = (Driver) idleDriver.take();" + driver);
+			System.out.println("Here is after driver = (Driver) idleDriver.take();");
 			//System.out.println("Semaphore: "+ queueSemaphore.availablePermits());
-			queueSemaphore.release();
+			
+			//queueSemaphore.release();
 			//System.out.println("Semaphore: "+ queueSemaphore.availablePermits());
 			return driver;
 		}catch (Exception e) {
 			// TODO: handle exception
+			System.out.println("error");
 			return null;
 		}
 	}

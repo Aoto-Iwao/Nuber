@@ -48,10 +48,15 @@ public class Booking implements Callable<BookingResult>{
 	* @param passenger
 	*/
 	
+	//works fine.
+	//Booking class: nuber.students.NuberDispatch@5fdef03a: nuber.students.Passenger@3b22cdd0
+	//Booking class: nuber.students.NuberDispatch@5fdef03a: nuber.students.Passenger@3b22cdd0
+
 	public Booking(NuberDispatch dispatch, Passenger passenger)
 	{
 		this.dispatch = dispatch;
 		this.passenger = passenger;	
+		System.out.println("Booking class: " + this.dispatch + ": " + this.passenger);
 	}
 	
 	/**

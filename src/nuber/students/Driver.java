@@ -41,7 +41,6 @@ public class Driver extends Person {
 	 */
 	
 	//works fine.
-	
 	//Output:  travel time of: Alex -> 59
 	public void driveToDestination() throws InterruptedException {
 		int travelTime;
