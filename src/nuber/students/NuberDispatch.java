@@ -194,7 +194,9 @@ public class NuberDispatch{
 	 */
 	public int getBookingsAwaitingDriver()
 	{
-		return bookingAwaitingDriver;
+		int awaiting = bookingAwaitingDriver;
+		bookingAwaitingDriver--;
+		return awaiting;
 	}
 	
 	/**
