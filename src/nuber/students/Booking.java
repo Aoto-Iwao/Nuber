@@ -140,6 +140,8 @@ public class Booking implements Callable<BookingResult>{
 		//works well.
 		System.out.println("tripDuration: " + tripDuration);
 		
+		
+		
 		//6. ドライバーは、これで解放されたので、Dispatch の利用可能なドライバーのリストに戻されます。
 		//works fine.
 		Boolean boolAddDriver = dispatch.addDriver(availableDriver);
@@ -149,8 +151,9 @@ public class Booking implements Callable<BookingResult>{
 		//(Dint jobID, Passenger passenger, Driver driver, long tripDuration)
 		//System.out.println("Thread current name: "+ Thread.currentThread().getName());
 		
-		BookingResult bookingResult = new BookingResult(jobID,passenger,driver,tripDuration); 
+		BookingResult bookingResult = new BookingResult(jobID,passenger,availableDriver,tripDuration); 
 		
+		System.out.println("Availabble driver: " + availableDriver);
 		System.out.println("bookingResult: "+ bookingResult.jobID + " "+ bookingResult.passenger
 				+ " " + bookingResult.driver + " " + bookingResult.tripDuration);
 		
