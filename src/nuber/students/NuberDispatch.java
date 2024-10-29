@@ -1,5 +1,6 @@
 package nuber.students;
 
+import java.awt.desktop.AboutHandler;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -78,35 +79,17 @@ public class NuberDispatch{
 	 * @param The driver to add to the queue.
 	 * @return Returns true if driver was added to the queue
 	 */
+	//works perfect.
 	public boolean addDriver(Driver newDriver)
 	{
 		try {
-			
-			//System.out.println("max_driver: " + max_drivers);
-			//System.out.println("Available Semaphore: "+ queueSemaphore.availablePermits());
-			//System.out.println("Here is addDriver");
-			
-			//queueSemaphore.acquire();
-			
-			//System.out.println("Semaphore: "+ queueSemaphore.availablePermits());
-			//System.out.println("Here is addDriver");
+			System.out.println("Here is addDriver and idle driver size: " + idleDriver.size() + " NewDriver is : " + newDriver.name);
 			
 			//dont need to use semaphore since Blockingqueue is thread safe.
 			idleDriver.put(newDriver);
-			
-			//System.out.println("idle driver size: " + idleDriver.size());
-			
-			//System.out.println("Here is addDriver");
-			
-			//System.out.println("regionInfo" + regionInfo);
-			//System.out.println("name--" + idleDriver.element().name);
-			
-//			int await;
-//			await =  getBookingsAwaitingDriver();
-//			System.out.println("await: " + await);
 			return true;
 		}catch (InterruptedException ie) { ie.printStackTrace();
-		;
+		System.out.println("Missed addDriver");
 		return false;} 
 
 	}
@@ -118,19 +101,15 @@ public class NuberDispatch{
 	 * 
 	 * @return A driver that has been removed from the queue
 	 */
+	
+	//works fine.
 	public Driver getDriver()
 	{
 		try {
 			
-			System.out.println("idle driver size: " + idleDriver.size());
-			System.out.println("Here is getDriver");
+			System.out.println("Here is getDriver and idle driver size: " + idleDriver.size());
+		
 			return idleDriver.take();
-			//System.out.println("Here is after driver = (Driver) idleDriver.take();");
-			//System.out.println("Semaphore: "+ queueSemaphore.availablePermits());
-			
-			//queueSemaphore.release();
-			//System.out.println("Semaphore: "+ queueSemaphore.availablePermits());
-			//return driver;
 		}catch (Exception e) {
 			// TODO: handle exception
 			if (idleDriver.size() == 0) {
