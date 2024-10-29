@@ -94,7 +94,7 @@ public class Booking implements Callable<BookingResult>{
 	* @throws InterruptedException
 	*/
 	
-	public synchronized BookingResult call() throws InterruptedException {
+	public BookingResult call() throws InterruptedException {
 		
 		//acquire driver.
 		//1. Dispatchに利用可能なドライバーを問い合わせます
