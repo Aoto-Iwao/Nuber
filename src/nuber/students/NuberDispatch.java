@@ -192,10 +192,13 @@ public class NuberDispatch{
 	 * 
 	 * @return Number of bookings awaiting driver, across ALL regions
 	 */
+	//works fine.
 	public int getBookingsAwaitingDriver()
 	{
+		System.out.println("bookingAwaitingDriver: before " + bookingAwaitingDriver);
 		int awaiting = bookingAwaitingDriver;
 		bookingAwaitingDriver--;
+		System.out.println("bookingAwaitingDriver: after " + bookingAwaitingDriver);
 		return awaiting;
 	}
 	

@@ -28,7 +28,7 @@ public class Booking implements Callable<BookingResult>{
 	protected NuberDispatch dispatch;
 	protected Passenger passenger;
 	protected Driver driver;
-	protected int jobID;
+	protected int jobID =1;
 
 		
 	/**
@@ -98,49 +98,61 @@ public class Booking implements Callable<BookingResult>{
 		
 		//acquire driver.
 		//1. Dispatchに利用可能なドライバーを問い合わせます
-		int availableDriverAmount;
-		availableDriverAmount = dispatch.getBookingsAwaitingDriver();
 		
 		//2. 現在利用可能なドライバーがいない場合、予約は利用可能になるまで待機します。
 		//If no driver is currently available, the booking must wait
-		while (availableDriverAmount < 1) {
-			this.wait();
-		}
+		System.out.println("HERE IS CALL IN BOOKING CLASS");
 		
-		Driver availableDriver = dispatch.getDriver();
+		
+		Driver availableDriver = dispatch.getDriver(); //works fine.
+		
+		System.out.println("Driver availableDriver = dispatch.getDriver(): " + availableDriver);
+		
+
+		int frau =  dispatch.getBookingsAwaitingDriver();
+		
+		//return1; works fine i think.
+		System.out.println("dispatch.getBookingsAwaitingDriver();" + frau );
 		
 //		3. ドライバーが確保できたら、Driver.pickUpPassenger() 関数を呼び出します。
 //		スレッドは、関数が呼び出されている間、一時停止します。
 		//Once it has a driver, it must call the Driver.pickUpPassenger() function, with the 
 		 //thread pausing whilst as function is called.
+		
+		//works fine.
 		availableDriver.pickUpPassenger(passenger);
+		
+		System.out.println("availableDriver.pickUpPassenger(passenger); ");
 		
 //		4. 次に、Driver.driveToDestination() 関数を呼び出し、スレッドは
 //		関数が呼び出されている間、一時停止します。
 		//call the Driver.driveToDestination() function, with the thread pausing 
 		//whilst as function is called.
+		
 		availableDriver.driveToDestination();
+		System.out.println("availableDriver.driveToDestination();");
 		
 		//Once at the destination, the time is recorded, so we know the total trip duration. 
 		//* 5. 目的地に到着すると、時間が記録され、合計の移動時間がわかります。
 		long tripDuration;
 		tripDuration = passenger.getTravelTime();
 		
+		//works well.
+		System.out.println("tripDuration: " + tripDuration);
+		
 		//6. ドライバーは、これで解放されたので、Dispatch の利用可能なドライバーのリストに戻されます。
-		dispatch.addDriver(availableDriver);
+		//works fine.
+		Boolean boolAddDriver = dispatch.addDriver(availableDriver);
+		System.out.println("boolAddDriver: "+boolAddDriver);
 		
 		//7. call() 関数は、BookingResult オブジェクトを返します。 BookingResult コンストラクタに必要な適切な情報を渡します。
-
 		//(Dint jobID, Passenger passenger, Driver driver, long tripDuration)
 		//System.out.println("Thread current name: "+ Thread.currentThread().getName());
 		
-	
-		Passenger waitingPassenger;
-	
-		jobID = 1; 
-		waitingPassenger = passenger;
-		driver = availableDriver;
-		BookingResult bookingResult = new BookingResult(jobID,waitingPassenger,driver,tripDuration); 
+		BookingResult bookingResult = new BookingResult(jobID,passenger,driver,tripDuration); 
+		
+		System.out.println("bookingResult: "+ bookingResult.jobID + " "+ bookingResult.passenger
+				+ " " + bookingResult.driver + " " + bookingResult.tripDuration);
 		
 		jobID += 1;
 		return bookingResult;
