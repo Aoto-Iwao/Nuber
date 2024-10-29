@@ -180,9 +180,12 @@ public class NuberDispatch{
 		
 		//Once a passenger is booked, the getBookingsAwaitingDriver() should be returning one higher.
 		//bookingAwaitingDriver++;
-		incrementalBookingAwaitingDriver();
+		
 		
 		Future<BookingResult> bookingFuture = nuberRegion.bookPassenger(passenger);
+		if (bookingFuture != null) {
+			incrementalBookingAwaitingDriver();
+		}
 		return bookingFuture;
 	}
 
