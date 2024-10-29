@@ -29,11 +29,11 @@ public class NuberDispatch{
 	
 	// added by Aoto
 	
-	private int max_drivers = MAX_DRIVERS;
+	//private int max_drivers = MAX_DRIVERS;
 	//private Semaphore queueSemaphore = new Semaphore(max_drivers);
 	
 	//this is for driver. 
-	protected BlockingQueue<Driver> idleDriver = new ArrayBlockingQueue<Driver>(max_drivers);
+	protected BlockingQueue<Driver> idleDriver = new ArrayBlockingQueue<Driver>(MAX_DRIVERS);
 	
 	//this is for enable to set the semaphore for one or more regions.
 	//protected HashMap<String, Semaphore> semaphoreForEachRegions;
@@ -94,6 +94,8 @@ public class NuberDispatch{
 			//dont need to use semaphore since Blockingqueue is thread safe.
 			idleDriver.put(newDriver);
 			
+			//System.out.println("idle driver size: " + idleDriver.size());
+			
 			//System.out.println("Here is addDriver");
 			
 			//System.out.println("regionInfo" + regionInfo);
@@ -103,7 +105,8 @@ public class NuberDispatch{
 //			await =  getBookingsAwaitingDriver();
 //			System.out.println("await: " + await);
 			return true;
-		}catch (InterruptedException ie) { ie.printStackTrace(); 
+		}catch (InterruptedException ie) { ie.printStackTrace();
+		;
 		return false;} 
 
 	}
@@ -118,14 +121,16 @@ public class NuberDispatch{
 	public Driver getDriver()
 	{
 		try {
+			
+			System.out.println("idle driver size: " + idleDriver.size());
 			System.out.println("Here is getDriver");
-			Driver driver = idleDriver.take();
-			System.out.println("Here is after driver = (Driver) idleDriver.take();");
+			return idleDriver.take();
+			//System.out.println("Here is after driver = (Driver) idleDriver.take();");
 			//System.out.println("Semaphore: "+ queueSemaphore.availablePermits());
 			
 			//queueSemaphore.release();
 			//System.out.println("Semaphore: "+ queueSemaphore.availablePermits());
-			return driver;
+			//return driver;
 		}catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("error");
