@@ -183,6 +183,8 @@ public class NuberDispatch{
 		
 		
 		Future<BookingResult> bookingFuture = nuberRegion.bookPassenger(passenger);
+		
+		//If null, the BookingAwaitingDriver shouldnt be incremented.
 		if (bookingFuture != null) {
 			incrementalBookingAwaitingDriver();
 		}

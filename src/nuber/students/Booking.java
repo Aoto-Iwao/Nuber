@@ -28,7 +28,11 @@ public class Booking implements Callable<BookingResult>{
 	protected NuberDispatch dispatch;
 	protected Passenger passenger;
 	protected Driver driver;
-	protected int jobID =1;
+	protected int jobID = 1;
+	
+	//use static int since if this is not static, bookingID/jobID is initialized 
+	//every single time when the instance called.
+	private static int bookingId = 1;
 
 		
 	/**
@@ -57,6 +61,8 @@ public class Booking implements Callable<BookingResult>{
 		this.dispatch = dispatch;
 		this.passenger = passenger;	
 		System.out.println("Booking class: " + this.dispatch + ": " + this.passenger);
+		
+		this.jobID = incrementalID();
 	}
 	
 	/**
@@ -158,9 +164,13 @@ public class Booking implements Callable<BookingResult>{
 		System.out.println("bookingResult: "+ bookingResult.jobID + " "+ bookingResult.passenger
 				+ " " + bookingResult.driver + " " + bookingResult.tripDuration);
 		
-		jobID++;
+		incrementalID();
 		return bookingResult;
 		
+	}
+	
+	private static synchronized int incrementalID() {
+		return bookingId++;
 	}
 	
 	/***
