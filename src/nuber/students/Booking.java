@@ -60,7 +60,7 @@ public class Booking implements Callable<BookingResult>{
 		
 		this.jobID = incrementalID();
 		
-		System.out.println(this.toString());
+		System.out.println(this.toString() + ": Creating booking");
 	}
 	
 	/**
@@ -172,6 +172,7 @@ public class Booking implements Callable<BookingResult>{
 	public String toString()
 	{
 		String driverNameString;
+		String passengerNameString;
 		
 		if (driver == null) {
 			driverNameString = "null";
@@ -179,9 +180,17 @@ public class Booking implements Callable<BookingResult>{
 			driverNameString = driver.name;
 		}
 		
+		if (passenger == null) {
+			passengerNameString ="null";
+		}else {
+			passengerNameString = passenger.name;
+		}
+		
+		
+		
 		String bookingID = Integer.toString(jobID);
 		
-		String toString = bookingID + ":" + driverNameString + ":" ;
+		String toString = bookingID + ":" + driverNameString + ":" + passengerNameString;
 		return toString;
 	}
 
