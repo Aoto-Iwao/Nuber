@@ -26,10 +26,7 @@ public class NuberDispatch{
 	private boolean logEvents = false;
 	private HashMap<String, Integer> regionInfo;
 	
-	// added by Aoto
-	//private int max_drivers = MAX_DRIVERS;
-	//private Semaphore queueSemaphore = new Semaphore(max_drivers);
-	
+	// added by Aoto.
 	//this is for driver. 
 	protected BlockingQueue<Driver> idleDriver = new ArrayBlockingQueue<Driver>(MAX_DRIVERS);
 	
@@ -37,7 +34,6 @@ public class NuberDispatch{
 	//protected HashMap<String, Semaphore> semaphoreForEachRegions;
 	private int bookingAwaitingDriver = 0;
 	protected HashMap<String, NuberRegion> nuberRegionHashMap;
-	
 	
 	/**
 	 * Creates a new dispatch objects and instantiates the required regions and any other objects required.
@@ -51,14 +47,10 @@ public class NuberDispatch{
 		System.out.println("Creating Nuber Dispatch");
 		this.regionInfo = regionInfo;
 		this.logEvents = logEvents;
-		//Update max driver by its region. 
-//		this.max_drivers = Collections.max(regionInfo.values());
-//		this.queueSemaphore = new Semaphore(max_drivers);	
-		//this.queueSemaphore = new Semaphore(max_drivers);
-		//this.semaphoreForEachRegions = new HashMap<>();
-		this.nuberRegionHashMap = new HashMap<>();
-		//EntrySetでMapの全てのStringとIntの組み合わせを返して、一つずつ取り出すためにEntryとしてる。
 		
+		this.nuberRegionHashMap = new HashMap<>();
+		
+		//EntrySetでMapの全てのStringとIntの組み合わせを返して、一つずつ取り出すためにEntryとしてる。
 		System.out.println("Creating " + regionInfo.size() + " regions");
 		for (Map.Entry<String, Integer> entry : regionInfo.entrySet()) {
 			//this.semaphoreForEachRegions.put(entry.getKey(), new Semaphore(entry.getValue()));
@@ -67,8 +59,6 @@ public class NuberDispatch{
 			this.nuberRegionHashMap.put(entry.getKey(), new NuberRegion(this, entry.getKey(), entry.getValue()));
 		}
 		System.out.println("Done creating " + regionInfo.size() +" regions");
-		
-		
 	}
 	
 	/**
@@ -83,14 +73,12 @@ public class NuberDispatch{
 	public boolean addDriver(Driver newDriver)
 	{
 		try {
-			//System.out.println("Here is addDriver and idle driver size: " + idleDriver.size() + " NewDriver is : " + newDriver.name);
 			//dont need to use semaphore since Blockingqueue is thread safe.
 			idleDriver.put(newDriver);
 			return true;
 		}catch (InterruptedException ie) { ie.printStackTrace();
 		System.out.println("Missed addDriver");
 		return false;} 
-
 	}
 	
 	/**
@@ -105,7 +93,6 @@ public class NuberDispatch{
 	public Driver getDriver()
 	{
 		try {
-			//System.out.println("Here is getDriver and idle driver size: " + idleDriver.size());
 			return idleDriver.take();
 		}catch (Exception e) {
 			// TODO: handle exception
@@ -156,20 +143,11 @@ public class NuberDispatch{
 	*/
 	
 	public Future<BookingResult> bookPassenger(Passenger passenger, String region) {
-		//System.out.println("region in bookPassenger: " + region);
 		NuberRegion nuberRegion = nuberRegionHashMap.get(region);
-		//Semaphore selectedRegionSemaphore = nuberRegionHashMap.get(region);
-//		try {
-//			System.out.println("availablePermits: " + selectedRegionSemaphore.availablePermits());
-//			selectedRegionSemaphore.acquire();
-//			System.out.println("availablePermits: " + selectedRegionSemaphore.availablePermits());
-//			
-//		}catch (Exception e) {
-//			// TODO: handle exception
-//		}
+
 		Future<BookingResult> bookingFuture = nuberRegion.bookPassenger(passenger);
 		
-		//If null, the BookingAwaitingDriver shouldnt be incremented.
+		//If null, the BookingAwaitingDriver shouldn't be incremented.
 		if (bookingFuture != null) {
 			//Once a passenger is booked, the getBookingsAwaitingDriver() should be returning one higher.
 			incrementalBookingAwaitingDriver();
@@ -192,7 +170,6 @@ public class NuberDispatch{
 	
 	
 	//Add by Aoto. 
-	
 	public synchronized void incrementalBookingAwaitingDriver() {
 		bookingAwaitingDriver++;
 	}
@@ -208,5 +185,4 @@ public class NuberDispatch{
 			nuberRegion.shutdown();
 		}
 	}
-
 }
