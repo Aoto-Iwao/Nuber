@@ -99,9 +99,11 @@ public class NuberRegion {
 			//* 地域にシャットダウンが指示されている場合、この関数はnullを返し、
 			//* 予約が拒否されたことを示すメッセージをコンソールに記録します。
 			if (isShutdown) {
-				//System.out.println("here is shutdown.");
+				Booking booking = new Booking(dispatch, waitingPassenger);
+				dispatch.logEvent(booking, "Rejected booking");
 				return null;
 			}
+			
 			//System.out.println("maxSimultaneousJobs: " + maxSimultaneousJobs);
 			//System.out.println("jobSemaphore: "+ jobSemaphore.availablePermits());
 			//指定の乗客の予約を作成し、処理するジョブのコレクションに追加します
@@ -118,7 +120,6 @@ public class NuberRegion {
 					Booking booking = new Booking(dispatch, waitingPassenger);
 					return booking.call();
 				}
-				
 			});
 			//semaphore release because book is done.
 			jobSemaphore.release();	
