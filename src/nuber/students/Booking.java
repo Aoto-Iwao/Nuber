@@ -58,7 +58,8 @@ public class Booking implements Callable<BookingResult>{
 		this.passenger = passenger;	
 		this.jobID = incrementalID();
 		
-		System.out.println(this.toString() + ": Creating booking");
+		//System.out.println(this.toString() + ": Creating booking");
+		dispatch.logEvent(this, "Creating booking");
 	}
 	/**
 	 * At some point, the Nuber Region responsible for the booking can start it (has free spot),
@@ -97,7 +98,8 @@ public class Booking implements Callable<BookingResult>{
 	public BookingResult call() throws InterruptedException {
 		
 		
-		System.out.println(this.toString() + ": Starting booking, getting driver");
+		//System.out.println(this.toString() + ": Starting booking, getting driver");
+		dispatch.logEvent(this, "Starting booking, getting driver");
 		
 		//acquire driver.
 		//1. Dispatchに利用可能なドライバーを問い合わせます
@@ -110,7 +112,8 @@ public class Booking implements Callable<BookingResult>{
 		//worksfine.
 		dispatch.decrementalBookingAwaitingDriver();
 		
-		System.out.println(this.toString() + ": Starting, on way to passenger");
+		//System.out.println(this.toString() + ": Starting, on way to passenger");
+		dispatch.logEvent(this, "Starting, on way to passenger");
 		//System.out.println("dispatch.getBookingsAwaitingDriver();" );
 		
 //		3. ドライバーが確保できたら、Driver.pickUpPassenger() 関数を呼び出します。
@@ -119,6 +122,8 @@ public class Booking implements Callable<BookingResult>{
 		//thread pausing whilst as function is called.
 		//works fine.
 		availableDriver.pickUpPassenger(passenger);
+		dispatch.logEvent(this, "Collected passenger, on way to destination");
+		
 		//System.out.println("availableDriver.pickUpPassenger(passenger); ");
 		
 //		4. 次に、Driver.driveToDestination() 関数を呼び出し、スレッドは
@@ -138,8 +143,7 @@ public class Booking implements Callable<BookingResult>{
 		//6. ドライバーは、これで解放されたので、Dispatch の利用可能なドライバーのリストに戻されます。
 		//works fine.
 		Boolean boolAddDriver = dispatch.addDriver(availableDriver);
-		
-		System.out.println(this.toString() + ": At destination, driver is now free");
+		dispatch.logEvent(this, "At destination, driver is now free");
 		//System.out.println("boolAddDriver: "+boolAddDriver);
 		
 		//7. call() 関数は、BookingResult オブジェクトを返します。 BookingResult コンストラクタに必要な適切な情報を渡します。
