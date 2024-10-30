@@ -63,7 +63,6 @@ public class NuberRegion {
 		
 		//use thread pool.
 		this.executor = Executors.newFixedThreadPool(maxSimultaneousJobs);
-		//System.out.println("test in region: " + this.regionName);
 	}
 	
 	/**
@@ -91,8 +90,7 @@ public class NuberRegion {
 	
 	public Future<BookingResult> bookPassenger(Passenger waitingPassenger)
 	{		
-		try {
-			
+		try {	
 			//* This is Japanese translation for understanding better.
 			//地域にシャットダウンが指示されている場合、この関数はnullを返し、
 			//* 予約が拒否されたことを示すメッセージをコンソールに記録します。
@@ -102,13 +100,11 @@ public class NuberRegion {
 				return null;
 			}
 			
-			//System.out.println("maxSimultaneousJobs: " + maxSimultaneousJobs);
-			//System.out.println("jobSemaphore: "+ jobSemaphore.availablePermits());
+			//* This is Japanese translation for understanding better.
 			//指定の乗客の予約を作成し、処理するジョブのコレクションに追加します
 			jobSemaphore.acquire();
-			//System.out.println("jobSemaphore: "+ jobSemaphore.availablePermits());
-			//System.out.println("Booking for region: " + regionName);
 			
+			//* This is Japanese translation for understanding better.
 			//地域に空席があり、ドライバーが利用可能であれば、
 			// 予約は自動的に開始されます。
 			//check w9 lec around p38 if I need.
@@ -121,7 +117,6 @@ public class NuberRegion {
 			});
 			//semaphore release because book is done.
 			jobSemaphore.release();	
-			//System.out.println("future: shhould return null if task completed: " + future.get());
 			return future;			
 		}catch (Exception e) {
 			// TODO: handle exception
