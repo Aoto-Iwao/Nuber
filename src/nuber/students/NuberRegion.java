@@ -99,6 +99,7 @@ public class NuberRegion {
 			//* 地域にシャットダウンが指示されている場合、この関数はnullを返し、
 			//* 予約が拒否されたことを示すメッセージをコンソールに記録します。
 			if (isShutdown) {
+				//System.out.println("here is shutdown.");
 				return null;
 			}
 			//System.out.println("maxSimultaneousJobs: " + maxSimultaneousJobs);

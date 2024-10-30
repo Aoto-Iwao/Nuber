@@ -139,7 +139,7 @@ public class Booking implements Callable<BookingResult>{
 		//works fine.
 		Boolean boolAddDriver = dispatch.addDriver(availableDriver);
 		
-		 System.out.println(this.toString() + ": At destination, driver is now free");
+		System.out.println(this.toString() + ": At destination, driver is now free");
 		//System.out.println("boolAddDriver: "+boolAddDriver);
 		
 		//7. call() 関数は、BookingResult オブジェクトを返します。 BookingResult コンストラクタに必要な適切な情報を渡します。

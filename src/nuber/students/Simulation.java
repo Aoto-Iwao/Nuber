@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
+import java.util.PrimitiveIterator.OfDouble;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.Future;
 
@@ -60,9 +61,13 @@ public class Simulation {
 			}
 		}
 
+		//aoto 
+		System.out.println("before shutdoewn.");
 		// tell all the regions to run all pending passengers, and then shutdown
 		dispatch.shutdown();
 		
+		//aoto 
+		System.out.println("after shutdoewn.");
 		//check that dispatch won't let us book passengers after we've told it to shutdown
 		if (dispatch.bookPassenger(new Passenger("Test", maxSleep), regionNames[new Random().nextInt(regionNames.length)]) != null)
 		{
