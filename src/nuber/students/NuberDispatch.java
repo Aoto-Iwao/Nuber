@@ -48,6 +48,7 @@ public class NuberDispatch{
 	 */
 	public NuberDispatch(HashMap<String, Integer> regionInfo, boolean logEvents)
 	{
+		System.out.println("Creating Nuber Dispatch");
 		this.regionInfo = regionInfo;
 		this.logEvents = logEvents;
 		//Update max driver by its region. 
@@ -57,11 +58,16 @@ public class NuberDispatch{
 		//this.semaphoreForEachRegions = new HashMap<>();
 		this.nuberRegionHashMap = new HashMap<>();
 		//EntrySetでMapの全てのStringとIntの組み合わせを返して、一つずつ取り出すためにEntryとしてる。
+		
+		System.out.println("Creating " + regionInfo.size() + " regions");
 		for (Map.Entry<String, Integer> entry : regionInfo.entrySet()) {
 			//this.semaphoreForEachRegions.put(entry.getKey(), new Semaphore(entry.getValue()));
 			// for each region, create a new NuberRegion. 
+			System.out.println("Creating Nuber region for " + entry.getKey());
 			this.nuberRegionHashMap.put(entry.getKey(), new NuberRegion(this, entry.getKey(), entry.getValue()));
 		}
+		System.out.println("Done creating " + regionInfo.size() +" regions");
+		
 		
 	}
 	
