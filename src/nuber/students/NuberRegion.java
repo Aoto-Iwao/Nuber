@@ -24,14 +24,13 @@ import java.util.concurrent.ThreadPoolExecutor;
  *
  */
 
-//* 他の地域から独立して動作する単一のNuber地域。
+//* This is Japanese translation for understanding better.
+//他の地域から独立して動作する単一のNuber地域。
 //* 中央配車からの予約からドライバーを取得する以外は、
-//*
 //* 地域には、ドライバーが同時に処理できる予約の最大数を定義するmaxSimultaneousJobs設定があります
 //*。予約した乗客数がこの上限を超える場合、
 //* 予約は受け付けられますが、ポジションが空くまで待機する必要があり、
 //*ドライバーが利用可能になるまで待機する必要があります。
-//*
 //* 予約はFIFO（先入れ先出し）順で完了する必要はありません。
 
 public class NuberRegion {
@@ -45,8 +44,6 @@ public class NuberRegion {
 	//Use thread pool.
 	protected ExecutorService executor;
 	protected boolean isShutdown = false;
-	
-
 	
 	/**
 	 * Creates a new Nuber region
@@ -81,10 +78,10 @@ public class NuberRegion {
 	 * @return a Future that will provide the final BookingResult object from the completed booking
 	 */
 	/**
+	 * This is Japanese translation for understanding better.
 	* 指定の乗客の予約を作成し、処理するジョブのコレクションに追加します
 	*。 地域に空席があり、ドライバーが利用可能であれば、
 	* 予約は自動的に開始されます。
-	*
 	* 地域にシャットダウンが指示されている場合、この関数はnullを返し、
 	* 予約が拒否されたことを示すメッセージをコンソールに記録します。
 	*
@@ -96,7 +93,8 @@ public class NuberRegion {
 	{		
 		try {
 			
-			//* 地域にシャットダウンが指示されている場合、この関数はnullを返し、
+			//* This is Japanese translation for understanding better.
+			//地域にシャットダウンが指示されている場合、この関数はnullを返し、
 			//* 予約が拒否されたことを示すメッセージをコンソールに記録します。
 			if (isShutdown) {
 				Booking booking = new Booking(dispatch, waitingPassenger);

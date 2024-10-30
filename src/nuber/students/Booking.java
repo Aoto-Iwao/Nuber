@@ -39,19 +39,15 @@ public class Booking implements Callable<BookingResult>{
 	 * @param dispatch
 	 * @param passenger
 	 */
-	/**
+	/** This is Japanese translation for understanding better.
 	* 指定されたNuberの派遣と乗客に対して、新しい予約を作成します。
 	* ドライバーは提供されません。これは、地域がこの予約の処理を開始できるかどうかによって、
 	* 利用可能なドライバーがいるかが決まるためです。
-	*
-	* @param dispatch
-	* @param passenger
 	*/
 	
 	//works fine.
 	//Booking class: nuber.students.NuberDispatch@5fdef03a: nuber.students.Passenger@3b22cdd0
 	//Booking class: nuber.students.NuberDispatch@5fdef03a: nuber.students.Passenger@3b22cdd0
-
 	public Booking(NuberDispatch dispatch, Passenger passenger)
 	{
 		this.dispatch = dispatch;
@@ -78,7 +74,7 @@ public class Booking implements Callable<BookingResult>{
 	 * @return A BookingResult containing the final information about the booking 
 	 * @throws InterruptedException 
 	 */
-	/**
+	/**This is Japanese translation for understanding better.
 	* ある時点で、予約を担当するNuber Regionが予約を開始（空きがある）し、
 	* Booking.call() 関数を呼び出します。
 	* 1. Dispatchに利用可能なドライバーを問い合わせます
@@ -97,25 +93,18 @@ public class Booking implements Callable<BookingResult>{
 	*/
 	public BookingResult call() throws InterruptedException {
 		
-		
-		//System.out.println(this.toString() + ": Starting booking, getting driver");
 		dispatch.logEvent(this, "Starting booking, getting driver");
-		
-		//acquire driver.
+		//This is Japanese translation for understanding better.
 		//1. Dispatchに利用可能なドライバーを問い合わせます
 		//2. 現在利用可能なドライバーがいない場合、予約は利用可能になるまで待機します。
 		//If no driver is currently available, the booking must wait
-		//System.out.println("HERE IS CALL IN BOOKING CLASS");
 		availableDriver = dispatch.getDriver(); //works fine.
 		
-		//System.out.println("Driver availableDriver = dispatch.getDriver(): " + availableDriver);
-		//worksfine.
+		//works fine.
 		dispatch.decrementalBookingAwaitingDriver();
-		
-		//System.out.println(this.toString() + ": Starting, on way to passenger");
 		dispatch.logEvent(this, "Starting, on way to passenger");
-		//System.out.println("dispatch.getBookingsAwaitingDriver();" );
 		
+		//This is Japanese translation for understanding better.
 //		3. ドライバーが確保できたら、Driver.pickUpPassenger() 関数を呼び出します。
 //		スレッドは、関数が呼び出されている間、一時停止します。
 		//Once it has a driver, it must call the Driver.pickUpPassenger() function, with the 
@@ -124,41 +113,35 @@ public class Booking implements Callable<BookingResult>{
 		availableDriver.pickUpPassenger(passenger);
 		dispatch.logEvent(this, "Collected passenger, on way to destination");
 		
-		//System.out.println("availableDriver.pickUpPassenger(passenger); ");
-		
+		//This is Japanese translation for understanding better.
 //		4. 次に、Driver.driveToDestination() 関数を呼び出し、スレッドは
 //		関数が呼び出されている間、一時停止します。
 		//call the Driver.driveToDestination() function, with the thread pausing 
 		//whilst as function is called.
 		availableDriver.driveToDestination();
-		//System.out.println("availableDriver.driveToDestination();");
-		
+
+		//This is Japanese translation for understanding better.
 		//Once at the destination, the time is recorded, so we know the total trip duration. 
 		//* 5. 目的地に到着すると、時間が記録され、合計の移動時間がわかります。
 		//works well.
 		long tripDuration;
 		tripDuration = passenger.getTravelTime();
-		//System.out.println("tripDuration: " + tripDuration);
 		
+		//This is Japanese translation for understanding better.
 		//6. ドライバーは、これで解放されたので、Dispatch の利用可能なドライバーのリストに戻されます。
 		//works fine.
 		Boolean boolAddDriver = dispatch.addDriver(availableDriver);
 		dispatch.logEvent(this, "At destination, driver is now free");
-		//System.out.println("boolAddDriver: "+boolAddDriver);
 		
+		//This is Japanese translation for understanding better.
 		//7. call() 関数は、BookingResult オブジェクトを返します。 BookingResult コンストラクタに必要な適切な情報を渡します。
-		//(Dint jobID, Passenger passenger, Driver driver, long tripDuration)
+		//(int jobID, Passenger passenger, Driver driver, long tripDuration)
 		//System.out.println("Thread current name: "+ Thread.currentThread().getName());
-		
 		//works fine.
 		BookingResult bookingResult = new BookingResult(jobID,passenger,availableDriver,tripDuration); 
-		//System.out.println("Availabble driver: " + availableDriver);
-//		System.out.println("bookingResult: "+ bookingResult.jobID + " "+ bookingResult.passenger
-//				+ " " + bookingResult.driver + " " + bookingResult.tripDuration);
 		
 		incrementalID();
 		return bookingResult;
-		
 	}
 	
 	private static synchronized int incrementalID() {
@@ -192,8 +175,6 @@ public class Booking implements Callable<BookingResult>{
 		}else {
 			passengerNameString = passenger.name;
 		}
-		
-		
 		
 		String bookingID = Integer.toString(jobID);
 		

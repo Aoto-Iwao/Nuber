@@ -146,13 +146,10 @@ public class NuberDispatch{
 	 * @return returns a Future<BookingResult> object
 	 */
 	
-	/**
+	/**This is Japanese translation for understanding better.
 	* 指定の乗客を指定のNuber地域に予約します。
-	*
 	* 乗客が予約されると、getBookingsAwaitingDriver() は1つ大きな値を返します。
-	*
 	* 地域がシャットダウンを求められている場合、予約は拒否され、nullが返されます。
-	*
 	* @param passenger 予約する乗客
 	* @param region 予約する地域
 	* @return Future<BookingResult> オブジェクトを返します
