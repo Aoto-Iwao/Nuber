@@ -30,9 +30,7 @@ public class Booking implements Callable<BookingResult>{
 	
 	//use static int since if this is not static, bookingID/jobID is initialized 
 	//every single time when the instance called.
-	private static int bookingId = 1;
-
-		
+	private static int bookingId = 1;	
 	/**
 	 * Creates a new booking for a given Nuber dispatch and passenger, noting that no
 	 * driver is provided as it will depend on whether one is available when the region 
@@ -61,6 +59,8 @@ public class Booking implements Callable<BookingResult>{
 		//System.out.println("Booking class: " + this.dispatch + ": " + this.passenger);
 		
 		this.jobID = incrementalID();
+		
+		System.out.println(this.toString());
 	}
 	
 	/**
@@ -172,22 +172,16 @@ public class Booking implements Callable<BookingResult>{
 	public String toString()
 	{
 		String driverNameString;
-		String passengerNameString;
-		int bookingID;
-		if (driver.name == null) {
-			driverNameString = null;
+		
+		if (driver == null) {
+			driverNameString = "null";
 		}else {
 			driverNameString = driver.name;
 		}
-		if (passenger.name == null) {
-			passengerNameString = null;
-		}else {
-			passengerNameString = passenger.name;
-		}
-		bookingID = jobID;
 		
-		String toString = bookingID + ":" + driverNameString + ":" + passengerNameString;
-
+		String bookingID = Integer.toString(jobID);
+		
+		String toString = bookingID + ":" + driverNameString + ":" ;
 		return toString;
 	}
 
