@@ -56,8 +56,6 @@ public class Booking implements Callable<BookingResult>{
 	{
 		this.dispatch = dispatch;
 		this.passenger = passenger;	
-		//System.out.println("Booking class: " + this.dispatch + ": " + this.passenger);
-		
 		this.jobID = incrementalID();
 		
 		System.out.println(this.toString() + ": Creating booking");
@@ -99,6 +97,8 @@ public class Booking implements Callable<BookingResult>{
 	*/
 	
 	public BookingResult call() throws InterruptedException {
+		
+		System.out.println(this.toString() + ": Starting booking, getting driver");
 		
 		//acquire driver.
 		//1. Dispatchに利用可能なドライバーを問い合わせます
