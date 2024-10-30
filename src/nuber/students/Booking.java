@@ -25,7 +25,7 @@ public class Booking implements Callable<BookingResult>{
 	//aoto
 	protected NuberDispatch dispatch;
 	protected Passenger passenger;
-	protected Driver driver;
+	protected Driver availableDriver;
 	protected int jobID = 1;
 	
 	//use static int since if this is not static, bookingID/jobID is initialized 
@@ -60,7 +60,6 @@ public class Booking implements Callable<BookingResult>{
 		
 		System.out.println(this.toString() + ": Creating booking");
 	}
-	
 	/**
 	 * At some point, the Nuber Region responsible for the booking can start it (has free spot),
 	 * and calls the Booking.call() function, which:
@@ -95,8 +94,8 @@ public class Booking implements Callable<BookingResult>{
 	* @return 予約に関する最終情報を含む BookingResult
 	* @throws InterruptedException
 	*/
-	
 	public BookingResult call() throws InterruptedException {
+		
 		
 		System.out.println(this.toString() + ": Starting booking, getting driver");
 		
@@ -105,11 +104,13 @@ public class Booking implements Callable<BookingResult>{
 		//2. 現在利用可能なドライバーがいない場合、予約は利用可能になるまで待機します。
 		//If no driver is currently available, the booking must wait
 		//System.out.println("HERE IS CALL IN BOOKING CLASS");
-		Driver availableDriver = dispatch.getDriver(); //works fine.
+		availableDriver = dispatch.getDriver(); //works fine.
 		
 		//System.out.println("Driver availableDriver = dispatch.getDriver(): " + availableDriver);
 		//worksfine.
 		dispatch.decrementalBookingAwaitingDriver();
+		
+		System.out.println(this.toString() + ": Starting, on way to passenger");
 		//System.out.println("dispatch.getBookingsAwaitingDriver();" );
 		
 //		3. ドライバーが確保できたら、Driver.pickUpPassenger() 関数を呼び出します。
@@ -137,6 +138,8 @@ public class Booking implements Callable<BookingResult>{
 		//6. ドライバーは、これで解放されたので、Dispatch の利用可能なドライバーのリストに戻されます。
 		//works fine.
 		Boolean boolAddDriver = dispatch.addDriver(availableDriver);
+		
+		 System.out.println(this.toString() + ": At destination, driver is now free");
 		//System.out.println("boolAddDriver: "+boolAddDriver);
 		
 		//7. call() 関数は、BookingResult オブジェクトを返します。 BookingResult コンストラクタに必要な適切な情報を渡します。
@@ -174,10 +177,10 @@ public class Booking implements Callable<BookingResult>{
 		String driverNameString;
 		String passengerNameString;
 		
-		if (driver == null) {
+		if (availableDriver == null) {
 			driverNameString = "null";
 		}else {
-			driverNameString = driver.name;
+			driverNameString = availableDriver.name;
 		}
 		
 		if (passenger == null) {
